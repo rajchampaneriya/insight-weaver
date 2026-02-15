@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/IdeaFactory.Api/IdeaFactory.Api.csproj" />
+    <Project Path="src/IdeaFactory.AppHost/IdeaFactory.AppHost.csproj" />
+    <Project Path="src/IdeaFactory.ServiceDefaults/IdeaFactory.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/IdeaFactory.Api.Tests/IdeaFactory.Api.Tests.csproj" />
+  </Folder>
+</Solution>

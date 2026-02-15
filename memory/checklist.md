@@ -4,20 +4,20 @@ Track progress against the implementation plan. Mark items as they complete.
 
 ## Phase 0: Foundation (Days 1-2)
 
-- [ ] 0.1 Scaffold .NET Aspire solution (AppHost, ServiceDefaults, Api)
-- [ ] 0.2 Configure Aspire resource wiring (Redis, Azurite containers)
-- [ ] 0.3 Add Microsoft.Extensions.AI with dual-provider config
-- [ ] 0.4 Implement health check endpoints
-- [ ] 0.5 Create Dockerfile for API
+- [x] 0.1 Scaffold .NET Aspire solution (AppHost, ServiceDefaults, Api)
+- [x] 0.2 Configure Aspire resource wiring (Redis, Azurite containers)
+- [x] 0.3 Add Microsoft.Extensions.AI with dual-provider config
+- [x] 0.4 Implement health check endpoints
+- [x] 0.5 Create Dockerfile for API
 - [ ] 0.6 Verify full stack launches via `dotnet run`
 
 ## Phase 1: Prudence Layer (Days 3-4)
 
-- [ ] 1.1 Implement PrudenceMiddleware (logging, forbidden terms, SEBI headers)
-- [ ] 1.2 Define compliance rules (no buy/sell, mandatory disclaimers)
-- [ ] 1.3 Add ComplianceAudit model and Table Storage persistence
-- [ ] 1.4 Write PrudenceMiddleware unit tests
-- [ ] 1.5 Add governance report endpoint
+- [x] 1.1 Implement PrudenceMiddleware (logging, forbidden terms, SEBI headers)
+- [x] 1.2 Define compliance rules (no buy/sell, mandatory disclaimers)
+- [x] 1.3 Add ComplianceAudit model and Table Storage persistence
+- [x] 1.4 Write PrudenceMiddleware unit tests
+- [x] 1.5 Add governance report endpoint
 
 ## Phase 2: AI Insight Endpoints (Days 5-8)
 

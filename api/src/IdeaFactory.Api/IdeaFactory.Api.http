@@ -1,0 +1,51 @@
+@IdeaFactory.Api_HostAddress = http://localhost:5000
+
+### Health Check
+GET {{IdeaFactory.Api_HostAddress}}/health
+Accept: application/json
+
+### Alive Check
+GET {{IdeaFactory.Api_HostAddress}}/alive
+Accept: application/json
+
+### Today's View (clean prompt - should pass)
+POST {{IdeaFactory.Api_HostAddress}}/api/insight/today
+Content-Type: application/json
+
+{
+  "ticker": "RELIANCE"
+}
+
+### Investment Brief (clean prompt - should pass)
+POST {{IdeaFactory.Api_HostAddress}}/api/insight/brief
+Content-Type: application/json
+
+{
+  "ticker": "TCS"
+}
+
+### Explain Movement (clean prompt - should pass)
+POST {{IdeaFactory.Api_HostAddress}}/api/insight/explain
+Content-Type: application/json
+
+{
+  "ticker": "HDFC",
+  "context": "Volume spiked 3x average with 5% price drop"
+}
+
+### Forbidden Term Test (should return 422)
+POST {{IdeaFactory.Api_HostAddress}}/api/insight/today
+Content-Type: application/json
+
+{
+  "ticker": "RELIANCE",
+  "context": "Should I buy RELIANCE?"
+}
+
+### Governance Report
+GET {{IdeaFactory.Api_HostAddress}}/api/governance/report?days=7
+Accept: application/json
+
+### Audit Records
+GET {{IdeaFactory.Api_HostAddress}}/api/governance/audits?days=1
+Accept: application/json
