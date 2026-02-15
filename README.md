@@ -1,73 +1,51 @@
-# Welcome to your Lovable project
+# Insight Weaver — AI insights for Indian equities
 
-## Project info
+Concise developer README with quick start instructions.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Status
+- Phase 0 (Foundation): ✅ implemented
+- Phase 1 (Prudence / Compliance): ✅ implemented
 
-## How can I edit this code?
+## Quickstart (local)
 
-There are several ways of editing your application.
+Prerequisites
+- .NET 10 SDK (pinned in `api/global.json`)
+- Docker (for Aspire emulators)
+- Node.js + npm
+- (Dev AI) set `GITHUB_TOKEN` in your environment or user secrets
 
-**Use Lovable**
+Run the backend (Aspire AppHost)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+```bash
+dotnet run --project api/src/IdeaFactory.AppHost
+# health check: curl http://localhost:5000/health
+```
 
-Changes made via Lovable will be committed automatically to this repo.
+Run the frontend (dev)
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+cd ui
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Run tests
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+# API unit/integration tests
+cd api && dotnet test
+# Frontend tests
+cd ui && npm test
+```
 
-**Use GitHub Codespaces**
+## Important notes
+- All AI responses include the mandatory disclaimer: "This is AI-generated analysis for informational purposes only. Not investment advice." (SEBI compliance)
+- Compliance audit trail is stored in Azure Table Storage (Azurite in dev).
+- Aspire orchestrates Redis and Azurite locally; use `dotnet run` on the AppHost to bring up the full stack.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Where to look next
+- Implementation plan: `plan/implementation-plan.md`
+- API: `api/src/IdeaFactory.Api`
+- Frontend: `ui/src`
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+That's it — minimal setup to get started. 🔧
