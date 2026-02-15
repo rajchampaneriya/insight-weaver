@@ -62,6 +62,10 @@ builder.Services.AddChatClient(sp =>
 builder.Services.AddSingleton<IAuditService, TableStorageAuditService>();
 builder.Services.AddSingleton<IAiInsightService, AiInsightService>();
 builder.Services.AddSingleton<IMarketDataService, MarketDataService>();
+builder.Services.AddSingleton<ICopilotSkillRouter, CopilotSkillRouter>();
+
+// Rate limiting for AI endpoints
+builder.Services.AddApiRateLimiting();
 
 // CORS for frontend
 builder.Services.AddCors(options =>
@@ -95,6 +99,9 @@ app.MapDefaultEndpoints();
 // CORS
 app.UseCors();
 
+// Rate limiting
+app.UseRateLimiter();
+
 // Prudence compliance middleware (wraps all AI endpoints)
 app.UsePrudence();
 
@@ -102,6 +109,7 @@ app.UsePrudence();
 app.MapInsightEndpoints();
 app.MapMarketEndpoints();
 app.MapGovernanceEndpoints();
+app.MapCopilotEndpoints();
 
 app.Run();
 

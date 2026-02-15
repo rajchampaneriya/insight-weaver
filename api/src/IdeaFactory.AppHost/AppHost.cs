@@ -14,4 +14,10 @@ var api = builder.AddProject<Projects.IdeaFactory_Api>("api")
     .WaitFor(tables)
     .WithExternalHttpEndpoints();
 
+var ui = builder.AddViteApp("ui", "../../../ui")
+    .WithNpm()
+    .WithReference(api)
+    .WaitFor(api)
+    .WithExternalHttpEndpoints();
+
 builder.Build().Run();

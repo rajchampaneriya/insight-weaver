@@ -13,8 +13,14 @@ export default defineConfig(({ mode }) => ({
     },
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        target: process.env.services__api__https__0 || process.env.services__api__http__0 || "http://localhost:5074",
         changeOrigin: true,
+        secure: false,
+      },
+      "/copilot": {
+        target: process.env.services__api__https__0 || process.env.services__api__http__0 || "http://localhost:5074",
+        changeOrigin: true,
+        secure: false,
       },
     },
   },

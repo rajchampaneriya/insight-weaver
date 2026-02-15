@@ -1,0 +1,52 @@
+{
+  "name": "idea-factory",
+  "display_name": "The Idea Factory",
+  "description": "AI-driven insights for Indian equities (NSE/BSE). Provides stock analysis, daily views, and research briefs without investment advice.",
+  "version": "1.0.0",
+  "skills": [
+    {
+      "name": "today",
+      "description": "Get today's view for a stock -- price movement, volume, and sector context",
+      "examples": [
+        "@idea-factory what changed for RELIANCE today?",
+        "@idea-factory INFY today",
+        "@idea-factory daily view for TCS"
+      ]
+    },
+    {
+      "name": "brief",
+      "description": "Get a Peter Lynch-style investment research brief for analysis purposes",
+      "examples": [
+        "@idea-factory brief on HDFCBANK",
+        "@idea-factory research TATAMOTORS",
+        "@idea-factory tell me about ADANIENT"
+      ]
+    },
+    {
+      "name": "explain",
+      "description": "Explain unusual price or volume movement for a stock",
+      "examples": [
+        "@idea-factory why did TATAMOTORS drop 4%?",
+        "@idea-factory explain ADANIENT surge",
+        "@idea-factory unusual volume in RELIANCE"
+      ]
+    },
+    {
+      "name": "chat",
+      "description": "Free-form questions about Indian equities, market trends, and sector analysis",
+      "examples": [
+        "@idea-factory which IT stocks have high PE ratios?",
+        "@idea-factory what are the top sectors today?",
+        "@idea-factory compare INFY and TCS metrics"
+      ]
+    }
+  ],
+  "endpoint": {
+    "resolve": "/copilot/resolve",
+    "skills": "/copilot/skills"
+  },
+  "compliance": {
+    "disclaimer": "Not investment advice. For informational purposes only. Please consult a SEBI-registered investment advisor.",
+    "governance": "All requests are audited through the Prudence compliance pipeline."
+  }
+}

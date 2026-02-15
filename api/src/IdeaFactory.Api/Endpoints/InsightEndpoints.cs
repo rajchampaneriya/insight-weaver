@@ -1,3 +1,4 @@
+using IdeaFactory.Api.Middleware;
 using IdeaFactory.Api.Models;
 using IdeaFactory.Api.Services;
 
@@ -8,7 +9,8 @@ public static class InsightEndpoints
     public static RouteGroupBuilder MapInsightEndpoints(this WebApplication app)
     {
         var group = app.MapGroup("/api/insight")
-            .WithTags("Insights");
+            .WithTags("Insights")
+            .RequireRateLimiting(RateLimitingConfiguration.AiEndpointPolicy);
 
         group.MapPost("/today", async (
             InsightRequest request,
