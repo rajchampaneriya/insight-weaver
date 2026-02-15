@@ -19,19 +19,20 @@ public class CopilotChatClientAdapter : IChatClient, IDisposable
         _logger = logger;
         _modelName = config["GITHUB_MODEL"] ?? "gpt-4.1";
 
-        var githubToken = config["GITHUB_TOKEN"] ?? Environment.GetEnvironmentVariable("GITHUB_TOKEN");
+        // var githubToken = config["GITHUB_TOKEN"] ?? Environment.GetEnvironmentVariable("GITHUB_TOKEN");
 
-        if (string.IsNullOrWhiteSpace(githubToken))
-            throw new InvalidOperationException(
-                "GITHUB_TOKEN is required. Set it in user secrets or environment variables.");
+        // if (string.IsNullOrWhiteSpace(githubToken))
+        //     throw new InvalidOperationException(
+        //         "GITHUB_TOKEN is required. Set it in user secrets or environment variables.");
 
-        var options = new CopilotClientOptions
-        {
-            GithubToken = githubToken,
-            AutoStart = false // start on-demand to avoid failing app startup when CLI isn't present
-        };
+        // var options = new CopilotClientOptions
+        // {
+        //     GithubToken = githubToken,
+        //     AutoStart = false // start on-demand to avoid failing app startup when CLI isn't present
+        // };
 
-        _client = new CopilotClient(options);
+        // _client = new CopilotClient(options);
+        _client = new CopilotClient();
         // NOTE: we deliberately do NOT call StartAsync() here so the app can start without the CLI installed.
         // The client will be started when the first request is made.
     }
