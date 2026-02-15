@@ -1,10 +1,7 @@
-using System.ClientModel;
-using Azure.AI.OpenAI;
 using IdeaFactory.Api.Endpoints;
 using IdeaFactory.Api.Middleware;
 using IdeaFactory.Api.Services;
 using Microsoft.Extensions.AI;
-using OpenAI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,46 +14,9 @@ builder.AddRedisClient("cache");
 // Azure Table Storage via Aspire (Azurite in development)
 builder.AddAzureTableServiceClient("tables");
 
-// AI client configuration: GitHub Models (dev) or Azure OpenAI (prod)
-builder.Services.AddChatClient(sp =>
-{
-    var config = sp.GetRequiredService<IConfiguration>();
-    var environment = sp.GetRequiredService<IHostEnvironment>();
-
-    if (environment.IsDevelopment())
-    {
-        // GitHub Models: uses GITHUB_TOKEN and GitHub Models endpoint
-        var githubToken = config["GITHUB_TOKEN"]
-            ?? Environment.GetEnvironmentVariable("GITHUB_TOKEN")
-            ?? throw new InvalidOperationException(
-                "GITHUB_TOKEN is required for development AI. " +
-                "Set it in user secrets or environment variables.");
-
-        var client = new OpenAIClient(
-            new ApiKeyCredential(githubToken),
-            new OpenAIClientOptions
-            {
-                Endpoint = new Uri("https://models.inference.ai.azure.com")
-            });
-
-        return client.GetChatClient("gpt-4o-mini").AsIChatClient();
-    }
-    else
-    {
-        // Azure OpenAI for production
-        var endpoint = config["AZURE_OPENAI_ENDPOINT"]
-            ?? throw new InvalidOperationException("AZURE_OPENAI_ENDPOINT is required for production.");
-        var key = config["AZURE_OPENAI_KEY"]
-            ?? throw new InvalidOperationException("AZURE_OPENAI_KEY is required for production.");
-
-        var client = new AzureOpenAIClient(
-            new Uri(endpoint),
-            new ApiKeyCredential(key));
-
-        var modelName = config["AZURE_OPENAI_MODEL"] ?? "gpt-4o";
-        return client.GetChatClient(modelName).AsIChatClient();
-    }
-});
+// AI client: GitHub Copilot SDK adapter (implements IChatClient)
+// Token check happens in CopilotChatClientAdapter constructor
+builder.Services.AddSingleton<IChatClient, CopilotChatClientAdapter>();
 
 // Application services
 builder.Services.AddSingleton<IAuditService, TableStorageAuditService>();

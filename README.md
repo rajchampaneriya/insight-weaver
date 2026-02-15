@@ -16,9 +16,9 @@ AI-driven research platform for Indian equities (NSE/BSE). .NET 10 backend with 
                              |          |          |
                         +----+    +-----+    +-----+
                         |         |          |
-                   GitHub     Azurite     Redis
-                   Models     (Storage)   (Cache)
-                   (Dev AI)   (Emulator)  (Emulator)
+                   GitHub      Azurite     Redis
+                   Copilot SDK (Storage)   (Cache)
+                   (AI)        (Emulator)  (Emulator)
 ```
 
 | Layer | Technology |
@@ -26,8 +26,7 @@ AI-driven research platform for Indian equities (NSE/BSE). .NET 10 backend with 
 | Orchestration | .NET Aspire 10 |
 | Backend | .NET 10 Minimal API + Microsoft.Extensions.AI |
 | Frontend | React 18 + TypeScript + Vite |
-| AI (Dev) | GitHub Models (gpt-4o-mini) |
-| AI (Prod) | Azure OpenAI |
+| AI | GitHub Copilot SDK (gpt-4.1) |
 | Cache | Redis via Aspire |
 | Storage | Azure Table Storage (Azurite emulator in dev) |
 | Compliance | Prudence Middleware (SEBI-compliant audit trail) |
@@ -51,7 +50,8 @@ AI-driven research platform for Indian equities (NSE/BSE). .NET 10 backend with 
 - .NET 10 SDK (pinned in `api/global.json`)
 - Docker Desktop (for Aspire-managed emulators: Redis, Azurite)
 - Node.js 18+ and npm
-- `GITHUB_TOKEN` environment variable (for GitHub Models AI in development)
+- **GitHub Copilot CLI** installed and authenticated ([Installation guide](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli))
+- `GITHUB_TOKEN` environment variable or user secret
 
 ### One-command launch (full stack via Aspire)
 
@@ -158,10 +158,33 @@ insight-weaver/
 
 ## Environment Variables
 
-| Variable | Dev Default | Description |
+| Variable | Required | Description |
 |---|---|---|
-| `GITHUB_TOKEN` | (required) | GitHub PAT for GitHub Models AI |
-| `ASPNETCORE_ENVIRONMENT` | Development | Switches AI provider and storage |
-| `VITE_API_BASE_URL` | (empty, uses proxy) | Frontend API base URL override |
+| `GITHUB_TOKEN` | Yes | GitHub token for Copilot SDK authentication |
+| `GITHUB_MODEL` | No | Model name (default: gpt-4.1) |
+| `ASPNETCORE_ENVIRONMENT` | No | Environment (Development/Production) |
+| `VITE_API_BASE_URL` | No | Frontend API base URL override (empty uses proxy) |
 
-That's it — minimal setup to get started. 🔧
+### Setting up GITHUB_TOKEN
+
+Choose one of the following methods:
+
+**1. User Secrets (Recommended for local development)**
+```bash
+cd api/src/IdeaFactory.Api
+dotnet user-secrets init
+dotnet user-secrets set "GITHUB_TOKEN" "your-token-here"
+```
+
+**2. Environment Variable (zsh/bash)**
+```bash
+export GITHUB_TOKEN="your-token-here"
+```
+
+**3. .zshrc / .bashrc (Persistent)**
+```bash
+echo 'export GITHUB_TOKEN="your-token-here"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+That's it — minimal setup to get started.
