@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { X, Send, Bot, User, Sparkles } from "lucide-react";
+import { X, Send, Bot, User, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useChatMutation } from "@/hooks/use-market-data";
 
 interface Message {
   role: "user" | "assistant";
@@ -27,24 +28,35 @@ export function AssistantPanel({ open, onClose }: AssistantPanelProps) {
     {
       role: "assistant",
       content:
-        "Hello! I'm your AI research assistant. Ask me about any NSE/BSE stock — I can explain price moves, summarize earnings, and generate investment briefs. How can I help today?",
+        "Hello! I'm your AI research assistant. Ask me about any NSE/BSE stock -- I can explain price moves, summarize earnings, and generate investment briefs. How can I help today?",
     },
   ]);
   const [input, setInput] = useState("");
+  const chatMutation = useChatMutation();
 
-  const handleSend = (text?: string) => {
+  const handleSend = async (text?: string) => {
     const msg = text || input;
     if (!msg.trim()) return;
-    setMessages((prev) => [
-      ...prev,
-      { role: "user", content: msg },
-      {
-        role: "assistant",
-        content:
-          "This is a placeholder response. Once integrated with Azure AI services, I'll provide real-time insights, sentiment analysis, and AI-generated investment briefs for Indian equities.",
-      },
-    ]);
     setInput("");
+
+    setMessages((prev) => [...prev, { role: "user", content: msg }]);
+
+    // Extract ticker from message if present (uppercase 3-12 char words)
+    const tickerMatch = msg.match(/\b([A-Z]{3,12})\b/);
+    const ticker = tickerMatch?.[1];
+
+    try {
+      const response = await chatMutation.mutateAsync({ question: msg, ticker });
+      setMessages((prev) => [...prev, { role: "assistant", content: response.answer }]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "Sorry, I encountered an error processing your request. Please try again.",
+        },
+      ]);
+    }
   };
 
   return (
@@ -90,6 +102,17 @@ export function AssistantPanel({ open, onClose }: AssistantPanelProps) {
             )}
           </div>
         ))}
+        {chatMutation.isPending && (
+          <div className="flex gap-2">
+            <div className="h-6 w-6 rounded bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+              <Bot className="h-3 w-3 text-primary" />
+            </div>
+            <div className="bg-muted rounded-r-lg rounded-bl-lg px-3 py-2 text-sm flex items-center gap-2 text-muted-foreground">
+              <Loader2 className="h-3 w-3 animate-spin" />
+              Thinking...
+            </div>
+          </div>
+        )}
       </div>
 
       {messages.length <= 1 && (

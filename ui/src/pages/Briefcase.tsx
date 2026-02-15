@@ -1,15 +1,30 @@
-import { allStocks } from "@/lib/mock-data";
 import { useWatchlist } from "@/lib/watchlist-store";
+import { fetchStockDetail } from "@/services/market-service";
+import type { StockDetail } from "@/services/market-service";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { TrendingUp, TrendingDown, BriefcaseBusiness } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Briefcase() {
-  const { groups, allTickers } = useWatchlist();
+  const { allTickers } = useWatchlist();
   const navigate = useNavigate();
-  const stocks = allTickers.map((t) => allStocks.find((s) => s.ticker === t)).filter(Boolean);
+
+  const { data: stocks = [], isLoading } = useQuery({
+    queryKey: ["briefcase-stocks", allTickers.join(",")],
+    queryFn: async () => {
+      const results = await Promise.allSettled(
+        allTickers.map((t) => fetchStockDetail(t))
+      );
+      return results
+        .filter((r): r is PromiseFulfilledResult<Awaited<ReturnType<typeof fetchStockDetail>>> => r.status === "fulfilled")
+        .map((r) => r.value.stock);
+    },
+    enabled: allTickers.length > 0,
+    staleTime: 30_000,
+  });
 
   return (
     <div className="space-y-6 max-w-[1400px]">
@@ -22,7 +37,13 @@ export default function Briefcase() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {stocks.map((stock) => stock && (
+        {isLoading ? (
+          Array.from({ length: 3 }).map((_, i) => (
+            <Card key={i} className="animate-pulse">
+              <CardContent className="p-4 h-40" />
+            </Card>
+          ))
+        ) : stocks.map((stock) => (
           <Card
             key={stock.ticker}
             className="cursor-pointer hover:bg-accent/30 transition-colors"
@@ -49,7 +70,7 @@ export default function Briefcase() {
         ))}
       </div>
 
-      {stocks.length === 0 && (
+      {stocks.length === 0 && !isLoading && (
         <div className="border bg-card p-8 text-center text-sm text-muted-foreground">
           No stocks in your watchlist yet. Add stocks from the Dashboard or Stock Explorer.
         </div>

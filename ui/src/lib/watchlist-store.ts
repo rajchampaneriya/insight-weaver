@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, createContext, useContext, type ReactNode } from "react";
 
 export interface WatchlistItem {
   ticker: string;
@@ -9,6 +9,14 @@ export interface WatchlistItem {
 export interface WatchlistGroup {
   name: string;
   items: WatchlistItem[];
+}
+
+interface WatchlistContextValue {
+  groups: WatchlistGroup[];
+  addToGroup: (ticker: string, groupName: string) => void;
+  removeFromGroup: (ticker: string, groupName: string) => void;
+  addGroup: (name: string) => void;
+  allTickers: string[];
 }
 
 const DEFAULT_GROUPS: WatchlistGroup[] = [
@@ -29,7 +37,9 @@ const DEFAULT_GROUPS: WatchlistGroup[] = [
   },
 ];
 
-export function useWatchlist() {
+const WatchlistContext = createContext<WatchlistContextValue | null>(null);
+
+export function WatchlistProvider({ children }: { children: ReactNode }) {
   const [groups, setGroups] = useState<WatchlistGroup[]>(DEFAULT_GROUPS);
 
   const addToGroup = useCallback((ticker: string, groupName: string) => {
@@ -58,5 +68,17 @@ export function useWatchlist() {
 
   const allTickers = groups.flatMap((g) => g.items.map((i) => i.ticker));
 
-  return { groups, addToGroup, removeFromGroup, addGroup, allTickers };
+  return (
+    <WatchlistContext.Provider value={{ groups, addToGroup, removeFromGroup, addGroup, allTickers }}>
+      {children}
+    </WatchlistContext.Provider>
+  );
+}
+
+export function useWatchlist(): WatchlistContextValue {
+  const context = useContext(WatchlistContext);
+  if (!context) {
+    throw new Error("useWatchlist must be used within a WatchlistProvider");
+  }
+  return context;
 }

@@ -61,6 +61,21 @@ builder.Services.AddChatClient(sp =>
 // Application services
 builder.Services.AddSingleton<IAuditService, TableStorageAuditService>();
 builder.Services.AddSingleton<IAiInsightService, AiInsightService>();
+builder.Services.AddSingleton<IMarketDataService, MarketDataService>();
+
+// CORS for frontend
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins(
+                "http://localhost:8080",
+                "http://localhost:5173",
+                "http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -77,11 +92,15 @@ using (var scope = app.Services.CreateScope())
 // Aspire default endpoints: /health, /alive
 app.MapDefaultEndpoints();
 
+// CORS
+app.UseCors();
+
 // Prudence compliance middleware (wraps all AI endpoints)
 app.UsePrudence();
 
 // Map endpoint groups
 app.MapInsightEndpoints();
+app.MapMarketEndpoints();
 app.MapGovernanceEndpoints();
 
 app.Run();

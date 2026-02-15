@@ -1,21 +1,14 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { allStocks } from "@/lib/mock-data";
+import { useSearchStocks } from "@/hooks/use-market-data";
 import { useNavigate } from "react-router-dom";
 
 export function QuickSearch() {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
-  const filtered = query.length > 0
-    ? allStocks.filter(
-        (s) =>
-          s.ticker.toLowerCase().includes(query.toLowerCase()) ||
-          s.name.toLowerCase().includes(query.toLowerCase())
-      )
-    : [];
+  const { data: filtered = [] } = useSearchStocks(query);
 
   return (
     <div className="relative w-full max-w-md">

@@ -67,6 +67,23 @@ public static class InsightEndpoints
         .WithName("ExplainMovement")
         .WithDescription("AI explanation for unusual stock movement");
 
+        group.MapPost("/chat", async (
+            ChatRequest request,
+            IAiInsightService aiService) =>
+        {
+            var answer = await aiService.ChatAsync(
+                request.Question, request.Ticker);
+
+            return Results.Ok(new ChatResult(
+                Answer: answer,
+                Ticker: request.Ticker,
+                Disclaimer: ChatResult.StandardDisclaimer,
+                GeneratedAt: DateTime.UtcNow
+            ));
+        })
+        .WithName("Chat")
+        .WithDescription("Conversational AI endpoint for free-form questions");
+
         return group;
     }
 }

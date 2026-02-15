@@ -1,20 +1,31 @@
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
 using Microsoft.Extensions.AI;
+using StackExchange.Redis;
 
 namespace IdeaFactory.Api.Services;
 
 public interface IAiInsightService
 {
     Task<string> GenerateInsightAsync(string ticker, string insightType, string? context = null, CancellationToken cancellationToken = default);
+    Task<string> ChatAsync(string question, string? ticker = null, CancellationToken cancellationToken = default);
 }
 
 public class AiInsightService : IAiInsightService
 {
     private readonly IChatClient _chatClient;
+    private readonly IConnectionMultiplexer _redis;
     private readonly ILogger<AiInsightService> _logger;
+    private static readonly TimeSpan CacheTtl = TimeSpan.FromMinutes(15);
 
-    public AiInsightService(IChatClient chatClient, ILogger<AiInsightService> logger)
+    public AiInsightService(
+        IChatClient chatClient,
+        IConnectionMultiplexer redis,
+        ILogger<AiInsightService> logger)
     {
         _chatClient = chatClient;
+        _redis = redis;
         _logger = logger;
     }
 
@@ -24,12 +35,49 @@ public class AiInsightService : IAiInsightService
         string? context = null,
         CancellationToken cancellationToken = default)
     {
+        var cacheKey = BuildCacheKey(ticker, insightType, context);
+        var cached = await GetCachedAsync(cacheKey);
+        if (cached is not null)
+        {
+            _logger.LogInformation(
+                "Cache hit for {InsightType} insight on {Ticker}",
+                insightType, ticker);
+            return cached;
+        }
+
         var systemPrompt = GetSystemPrompt(insightType);
         var userPrompt = BuildUserPrompt(ticker, insightType, context);
 
         _logger.LogInformation(
             "Generating {InsightType} insight for {Ticker}",
             insightType, ticker);
+
+        var messages = new List<ChatMessage>
+        {
+            new(ChatRole.System, systemPrompt),
+            new(ChatRole.User, userPrompt)
+        };
+
+        var response = await _chatClient.GetResponseAsync(
+            messages,
+            cancellationToken: cancellationToken);
+
+        var result = response.Text ?? string.Empty;
+        await SetCacheAsync(cacheKey, result);
+        return result;
+    }
+
+    public async Task<string> ChatAsync(
+        string question,
+        string? ticker = null,
+        CancellationToken cancellationToken = default)
+    {
+        var systemPrompt = GetSystemPrompt("chat");
+        var userPrompt = ticker is not null
+            ? $"Regarding {ticker} on Indian exchanges (NSE/BSE): {question}"
+            : question;
+
+        _logger.LogInformation("Chat query: {Question}", question);
 
         var messages = new List<ChatMessage>
         {
@@ -94,6 +142,22 @@ public class AiInsightService : IAiInsightService
             - End every response with the disclaimer: "This is AI-generated analysis for informational purposes only. Not investment advice."
             """,
 
+        "chat" => """
+            You are a financial research assistant specializing in Indian equities (NSE/BSE).
+            Answer questions about stocks, market trends, earnings, and corporate actions.
+            Provide factual, well-sourced analysis. Cite specific data points when available.
+
+            STRICT RULES:
+            - NEVER provide buy, sell, or hold recommendations
+            - NEVER suggest target prices or stop losses
+            - NEVER use phrases like "you should invest" or "I recommend"
+            - Always state that this is for informational purposes only
+            - All monetary values must be in INR
+            - Reference NSE/BSE exchanges only
+            - Be concise but thorough
+            - End every response with the disclaimer: "This is AI-generated analysis for informational purposes only. Not investment advice."
+            """,
+
         _ => """
             You are a financial research analyst specializing in Indian equities (NSE/BSE).
             Provide factual, well-researched analysis. Never provide investment recommendations.
@@ -109,4 +173,39 @@ public class AiInsightService : IAiInsightService
             "explain" => $"Explain the unusual movement for {ticker} on Indian exchanges. Context: {context ?? "No additional context provided."}",
             _ => $"Analyze {ticker} on the Indian stock market. {context ?? ""}"
         };
+
+    private static string BuildCacheKey(string ticker, string insightType, string? context)
+    {
+        var raw = $"insight:{insightType}:{ticker}:{context ?? ""}";
+        var hash = SHA256.HashData(Encoding.UTF8.GetBytes(raw));
+        return $"insight:{insightType}:{ticker}:{Convert.ToHexString(hash)[..16]}";
+    }
+
+    private async Task<string?> GetCachedAsync(string key)
+    {
+        try
+        {
+            var db = _redis.GetDatabase();
+            var value = await db.StringGetAsync(key);
+            return value.HasValue ? value.ToString() : null;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Redis cache read failed for key {Key}", key);
+            return null;
+        }
+    }
+
+    private async Task SetCacheAsync(string key, string value)
+    {
+        try
+        {
+            var db = _redis.GetDatabase();
+            await db.StringSetAsync(key, value, CacheTtl);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Redis cache write failed for key {Key}", key);
+        }
+    }
 }

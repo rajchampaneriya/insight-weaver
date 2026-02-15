@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useWatchlist } from "@/lib/watchlist-store";
-import { allStocks } from "@/lib/mock-data";
+import { useSearchStocks } from "@/hooks/use-market-data";
+import { fetchStockDetail } from "@/services/market-service";
+import type { StockDetail } from "@/services/market-service";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,12 +11,36 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { cn } from "@/lib/utils";
 import { LayoutGrid, List, Plus, Trash2, TrendingUp, TrendingDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
+function useWatchlistStocks(tickers: string[]) {
+  return useQuery({
+    queryKey: ["watchlist-stocks", tickers.join(",")],
+    queryFn: async () => {
+      const results = await Promise.allSettled(
+        tickers.map((t) => fetchStockDetail(t))
+      );
+      const stocks: Record<string, StockDetail> = {};
+      results.forEach((r, i) => {
+        if (r.status === "fulfilled") {
+          stocks[tickers[i]] = r.value.stock;
+        }
+      });
+      return stocks;
+    },
+    enabled: tickers.length > 0,
+    staleTime: 30_000,
+  });
+}
 
 export default function Watchlist() {
   const { groups, removeFromGroup, addToGroup, addGroup } = useWatchlist();
   const [viewMode, setViewMode] = useState<"card" | "table">("table");
   const [newGroupName, setNewGroupName] = useState("");
   const navigate = useNavigate();
+
+  const allTickers = [...new Set(groups.flatMap((g) => g.items.map((i) => i.ticker)))];
+  const { data: stockMap = {}, isLoading } = useWatchlistStocks(allTickers);
 
   const handleAddGroup = () => {
     if (newGroupName.trim()) {
@@ -41,7 +67,9 @@ export default function Watchlist() {
       </div>
 
       {groups.map((group) => {
-        const stocks = group.items.map((item) => allStocks.find((s) => s.ticker === item.ticker)).filter(Boolean);
+        const stocks = group.items
+          .map((item) => stockMap[item.ticker])
+          .filter(Boolean);
 
         return (
           <div key={group.name} className="space-y-2">

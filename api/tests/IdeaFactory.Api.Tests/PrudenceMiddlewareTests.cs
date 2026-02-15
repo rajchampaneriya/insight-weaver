@@ -30,7 +30,10 @@ public class PrudenceMiddlewareTests : IClassFixture<WebApplicationFactory<Progr
 
             builder.ConfigureServices(services =>
             {
-                // Replace AI service with a test stub
+                // Replace AI service with a test stub (avoids Redis dependency)
+                services.AddSingleton<IAiInsightService>(new StubAiInsightService());
+
+                // Replace AI client with a test stub
                 services.AddSingleton<IChatClient>(new TestChatClient());
 
                 // Replace audit service with in-memory implementation
@@ -150,6 +153,24 @@ internal class TestChatClient : IChatClient
     }
 
     public object? GetService(Type serviceType, object? serviceKey = null) => null;
+}
+
+internal class StubAiInsightService : IAiInsightService
+{
+    public Task<string> GenerateInsightAsync(string ticker, string insightType, string? context = null,
+        CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(
+            $"{ticker} showed a 2.3% increase today. " +
+            "This is AI-generated analysis for informational purposes only. Not investment advice.");
+    }
+
+    public Task<string> ChatAsync(string question, string? ticker = null,
+        CancellationToken cancellationToken = default)
+    {
+        return Task.FromResult(
+            "This is a test response. Not investment advice.");
+    }
 }
 
 internal class InMemoryAuditService : IAuditService

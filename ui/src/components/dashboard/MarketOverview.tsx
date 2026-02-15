@@ -1,14 +1,38 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { marketIndices, sectorPerformance } from "@/lib/mock-data";
+import { useMarketOverview } from "@/hooks/use-market-data";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function MarketOverview() {
+  const { data, isLoading, error } = useMarketOverview();
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i} className="bg-card animate-pulse">
+              <CardContent className="p-4 h-20" />
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="border bg-card p-4 text-sm text-muted-foreground">
+        Failed to load market data. Please try again later.
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {/* Index Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {marketIndices.map((idx) => (
+        {data.indices.map((idx) => (
           <Card key={idx.name} className="bg-card">
             <CardContent className="p-4">
               <p className="text-[11px] text-muted-foreground uppercase tracking-wider">{idx.name}</p>
@@ -25,7 +49,7 @@ export function MarketOverview() {
 
       {/* Sector Heatmap */}
       <div className="flex flex-wrap gap-2">
-        {sectorPerformance.map((s) => (
+        {data.sectors.map((s) => (
           <div
             key={s.name}
             className={cn(
