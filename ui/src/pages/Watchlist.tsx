@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { useWatchlist } from "@/lib/watchlist-store";
-import { useSearchStocks } from "@/hooks/use-market-data";
 import { fetchStockDetail } from "@/services/market-service";
 import type { StockDetail } from "@/services/market-service";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
-import { LayoutGrid, List, Plus, Trash2, TrendingUp, TrendingDown } from "lucide-react";
+import {
+  Tile,
+  ClickableTile,
+  Tag,
+  Button,
+  TextInput,
+  ContentSwitcher,
+  Switch,
+  InlineLoading,
+} from "@carbon/react";
+import { ArrowUp, ArrowDown, Add, TrashCan } from "@carbon/icons-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
@@ -34,12 +37,14 @@ function useWatchlistStocks(tickers: string[]) {
 }
 
 export default function Watchlist() {
-  const { groups, removeFromGroup, addToGroup, addGroup } = useWatchlist();
-  const [viewMode, setViewMode] = useState<"card" | "table">("table");
+  const { groups, removeFromGroup, addGroup } = useWatchlist();
+  const [viewIndex, setViewIndex] = useState(0);
   const [newGroupName, setNewGroupName] = useState("");
   const navigate = useNavigate();
 
-  const allTickers = [...new Set(groups.flatMap((g) => g.items.map((i) => i.ticker)))];
+  const allTickers = [
+    ...new Set(groups.flatMap((g) => g.items.map((i) => i.ticker))),
+  ];
   const { data: stockMap = {}, isLoading } = useWatchlistStocks(allTickers);
 
   const handleAddGroup = () => {
@@ -54,17 +59,20 @@ export default function Watchlist() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Watchlist</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">Track and organize your stock ideas</p>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Track and organize your stock ideas
+          </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant={viewMode === "table" ? "secondary" : "ghost"} size="icon" className="h-8 w-8" onClick={() => setViewMode("table")}>
-            <List className="h-4 w-4" />
-          </Button>
-          <Button variant={viewMode === "card" ? "secondary" : "ghost"} size="icon" className="h-8 w-8" onClick={() => setViewMode("card")}>
-            <LayoutGrid className="h-4 w-4" />
-          </Button>
-        </div>
+        <ContentSwitcher
+          onChange={(e: { index: number }) => setViewIndex(e.index)}
+          selectedIndex={viewIndex}
+        >
+          <Switch name="table" text="Table" />
+          <Switch name="card" text="Cards" />
+        </ContentSwitcher>
       </div>
+
+      {isLoading && <InlineLoading description="Loading stocks..." />}
 
       {groups.map((group) => {
         const stocks = group.items
@@ -75,66 +83,144 @@ export default function Watchlist() {
           <div key={group.name} className="space-y-2">
             <div className="flex items-center gap-2">
               <h2 className="text-sm font-semibold">{group.name}</h2>
-              <Badge variant="outline" className="text-[10px] font-mono">{group.items.length}</Badge>
+              <Tag type="gray" size="sm">
+                {group.items.length}
+              </Tag>
             </div>
 
-            {viewMode === "table" ? (
-              <div className="border bg-card">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="hover:bg-transparent">
-                      <TableHead className="text-[11px] uppercase tracking-wider h-9">Ticker</TableHead>
-                      <TableHead className="text-[11px] uppercase tracking-wider h-9">Name</TableHead>
-                      <TableHead className="text-[11px] uppercase tracking-wider h-9 text-right">Price</TableHead>
-                      <TableHead className="text-[11px] uppercase tracking-wider h-9 text-right">Change</TableHead>
-                      <TableHead className="text-[11px] uppercase tracking-wider h-9">Brief</TableHead>
-                      <TableHead className="text-[11px] uppercase tracking-wider h-9 w-10"></TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {stocks.map((stock) => stock && (
-                      <TableRow key={stock.ticker} className="cursor-pointer hover:bg-accent/50" onClick={() => navigate(`/explorer/${stock.ticker}`)}>
-                        <TableCell className="font-mono text-sm font-medium py-2.5">{stock.ticker}</TableCell>
-                        <TableCell className="text-sm text-muted-foreground py-2.5">{stock.name}</TableCell>
-                        <TableCell className="font-mono text-sm text-right py-2.5">₹{stock.price.toLocaleString("en-IN")}</TableCell>
-                        <TableCell className={cn("font-mono text-sm text-right py-2.5", stock.change >= 0 ? "text-carbon-success" : "text-carbon-danger")}>
-                          {stock.change >= 0 ? "+" : ""}{stock.changePercent.toFixed(2)}%
-                        </TableCell>
-                        <TableCell className="py-2.5">
-                          <Badge variant="outline" className="text-[10px] text-muted-foreground font-mono">Pending</Badge>
-                        </TableCell>
-                        <TableCell className="py-2.5">
-                          <Button variant="ghost" size="icon" className="h-6 w-6" onClick={(e) => { e.stopPropagation(); removeFromGroup(stock.ticker, group.name); }}>
-                            <Trash2 className="h-3 w-3" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+            {viewIndex === 0 ? (
+              <Tile className="p-0">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-border">
+                        <th className="text-[11px] uppercase tracking-wider h-9 text-left px-4">
+                          Ticker
+                        </th>
+                        <th className="text-[11px] uppercase tracking-wider h-9 text-left px-4">
+                          Name
+                        </th>
+                        <th className="text-[11px] uppercase tracking-wider h-9 text-right px-4">
+                          Price
+                        </th>
+                        <th className="text-[11px] uppercase tracking-wider h-9 text-right px-4">
+                          Change
+                        </th>
+                        <th className="text-[11px] uppercase tracking-wider h-9 text-left px-4">
+                          Brief
+                        </th>
+                        <th className="text-[11px] uppercase tracking-wider h-9 w-10 px-4" />
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {stocks.map(
+                        (stock) =>
+                          stock && (
+                            <tr
+                              key={stock.ticker}
+                              className="border-b border-border cursor-pointer hover:bg-muted/50 transition-colors"
+                              onClick={() =>
+                                navigate(`/explorer/${stock.ticker}`)
+                              }
+                            >
+                              <td className="font-mono-data text-sm font-medium py-2.5 px-4">
+                                {stock.ticker}
+                              </td>
+                              <td className="text-sm text-muted-foreground py-2.5 px-4">
+                                {stock.name}
+                              </td>
+                              <td className="font-mono-data text-sm text-right py-2.5 px-4">
+                                {"\u20B9"}
+                                {stock.price.toLocaleString("en-IN")}
+                              </td>
+                              <td
+                                className={`font-mono-data text-sm text-right py-2.5 px-4 ${
+                                  stock.change >= 0
+                                    ? "text-carbon-success"
+                                    : "text-carbon-danger"
+                                }`}
+                              >
+                                {stock.change >= 0 ? "+" : ""}
+                                {stock.changePercent.toFixed(2)}%
+                              </td>
+                              <td className="py-2.5 px-4">
+                                <Tag type="gray" size="sm">
+                                  Pending
+                                </Tag>
+                              </td>
+                              <td className="py-2.5 px-4">
+                                <Button
+                                  kind="ghost"
+                                  size="sm"
+                                  hasIconOnly
+                                  renderIcon={TrashCan}
+                                  iconDescription="Remove"
+                                  onClick={(e: React.MouseEvent) => {
+                                    e.stopPropagation();
+                                    removeFromGroup(stock.ticker, group.name);
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </Tile>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {stocks.map((stock) => stock && (
-                  <Card key={stock.ticker} className="cursor-pointer hover:bg-accent/30 transition-colors" onClick={() => navigate(`/explorer/${stock.ticker}`)}>
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-mono text-sm font-semibold">{stock.ticker}</span>
-                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={(e) => { e.stopPropagation(); removeFromGroup(stock.ticker, group.name); }}>
-                          <Trash2 className="h-3 w-3" />
-                        </Button>
-                      </div>
-                      <p className="text-xs text-muted-foreground mb-2">{stock.name}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono text-sm">₹{stock.price.toLocaleString("en-IN")}</span>
-                        <span className={cn("font-mono text-xs flex items-center gap-0.5", stock.change >= 0 ? "text-carbon-success" : "text-carbon-danger")}>
-                          {stock.change >= 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
-                          {stock.changePercent >= 0 ? "+" : ""}{stock.changePercent.toFixed(2)}%
-                        </span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                {stocks.map(
+                  (stock) =>
+                    stock && (
+                      <ClickableTile
+                        key={stock.ticker}
+                        onClick={() => navigate(`/explorer/${stock.ticker}`)}
+                        className="p-4"
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-mono-data text-sm font-semibold">
+                            {stock.ticker}
+                          </span>
+                          <Button
+                            kind="ghost"
+                            size="sm"
+                            hasIconOnly
+                            renderIcon={TrashCan}
+                            iconDescription="Remove"
+                            onClick={(e: React.MouseEvent) => {
+                              e.stopPropagation();
+                              removeFromGroup(stock.ticker, group.name);
+                            }}
+                          />
+                        </div>
+                        <p className="text-xs text-muted-foreground mb-2">
+                          {stock.name}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <span className="font-mono-data text-sm">
+                            {"\u20B9"}
+                            {stock.price.toLocaleString("en-IN")}
+                          </span>
+                          <span
+                            className={`font-mono-data text-xs flex items-center gap-0.5 ${
+                              stock.change >= 0
+                                ? "text-carbon-success"
+                                : "text-carbon-danger"
+                            }`}
+                          >
+                            {stock.change >= 0 ? (
+                              <ArrowUp size={12} />
+                            ) : (
+                              <ArrowDown size={12} />
+                            )}
+                            {stock.changePercent >= 0 ? "+" : ""}
+                            {stock.changePercent.toFixed(2)}%
+                          </span>
+                        </div>
+                      </ClickableTile>
+                    )
+                )}
               </div>
             )}
           </div>
@@ -142,15 +228,28 @@ export default function Watchlist() {
       })}
 
       <div className="flex items-center gap-2">
-        <Input
+        <TextInput
+          id="new-group"
+          labelText=""
+          hideLabel
+          size="sm"
           value={newGroupName}
-          onChange={(e) => setNewGroupName(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleAddGroup()}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setNewGroupName(e.target.value)
+          }
+          onKeyDown={(e: React.KeyboardEvent) =>
+            e.key === "Enter" && handleAddGroup()
+          }
           placeholder="New group name..."
-          className="max-w-xs h-8 text-sm"
+          className="max-w-xs"
         />
-        <Button variant="outline" size="sm" onClick={handleAddGroup} className="h-8">
-          <Plus className="h-3 w-3 mr-1" /> Add Group
+        <Button
+          kind="tertiary"
+          size="sm"
+          renderIcon={Add}
+          onClick={handleAddGroup}
+        >
+          Add Group
         </Button>
       </div>
     </div>

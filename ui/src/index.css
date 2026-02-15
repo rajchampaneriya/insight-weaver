@@ -1,3 +1,6 @@
+/* IBM Plex font */
+@import '@ibm/plex/css/ibm-plex.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,14 +27,6 @@
     --input: 0 0% 88%;
     --ring: 207 80% 48%;
     --radius: 0px;
-    --sidebar-background: 0 0% 96%;
-    --sidebar-foreground: 0 0% 25%;
-    --sidebar-primary: 207 80% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 91%;
-    --sidebar-accent-foreground: 0 0% 13%;
-    --sidebar-border: 0 0% 88%;
-    --sidebar-ring: 207 80% 48%;
 
     --carbon-success: 143 64% 38%;
     --carbon-warning: 36 100% 50%;
@@ -59,14 +54,6 @@
     --border: 0 0% 20%;
     --input: 0 0% 20%;
     --ring: 207 80% 56%;
-    --sidebar-background: 0 0% 8%;
-    --sidebar-foreground: 0 0% 75%;
-    --sidebar-primary: 207 80% 56%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 14%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 207 80% 56%;
 
     --carbon-success: 143 64% 45%;
     --carbon-warning: 36 100% 55%;
@@ -80,7 +67,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
     font-size: 14px;
     line-height: 1.5;
   }
@@ -90,4 +78,41 @@
   .font-mono-data {
     font-family: 'IBM Plex Mono', monospace;
   }
+}
+
+/* Carbon component overrides for dark mode */
+.dark .cds--header,
+.dark .cds--side-nav {
+  background-color: hsl(var(--card));
+}
+
+/* Carbon DataTable dark mode override */
+.dark .cds--data-table {
+  background-color: hsl(var(--card));
+}
+
+.dark .cds--data-table th,
+.dark .cds--data-table td {
+  background-color: transparent;
+  color: hsl(var(--foreground));
+  border-bottom-color: hsl(var(--border));
+}
+
+.dark .cds--data-table--zebra tbody tr:nth-child(even) td {
+  background-color: hsl(var(--muted));
+}
+
+/* Ensure Carbon Tags work in dark mode */
+.dark .cds--tag {
+  color: hsl(var(--foreground));
+}
+
+/* Carbon Search styling */
+.cds--search-input {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+/* Override Carbon grid to use full width */
+.cds--content {
+  padding: 0;
 }

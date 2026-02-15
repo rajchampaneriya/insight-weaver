@@ -1,0 +1,7 @@
+// IBM Carbon Design System styles
+@use '@carbon/react' with (
+  $font-path: '@ibm/plex'
+);
+
+// Carbon Charts styles
+@use '@carbon/charts-react/styles.css';

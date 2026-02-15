@@ -1,59 +1,54 @@
+import { SideNav, SideNavItems, SideNavLink } from "@carbon/react";
 import {
-  LayoutDashboard,
+  Dashboard as DashboardIcon,
   Search,
   Bookmark,
-  BriefcaseBusiness,
+  Portfolio,
   Settings,
-} from "lucide-react";
-import { NavLink } from "@/components/NavLink";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@carbon/icons-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const navItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
+  { title: "Dashboard", url: "/", icon: DashboardIcon },
   { title: "Stock Explorer", url: "/explorer", icon: Search },
   { title: "Watchlist", url: "/watchlist", icon: Bookmark },
-  { title: "AI Briefcase", url: "/briefcase", icon: BriefcaseBusiness },
+  { title: "AI Briefcase", url: "/briefcase", icon: Portfolio },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  expanded: boolean;
+}
+
+export function AppSidebar({ expanded }: AppSidebarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
-    <Sidebar className="border-r">
-      <SidebarContent className="pt-2">
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            Navigation
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      end={item.url === "/"}
-                      className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent rounded-none"
-                      activeClassName="bg-accent text-foreground font-medium border-l-2 border-primary"
-                    >
-                      <item.icon className="h-4 w-4 shrink-0" />
-                      <span>{item.title}</span>
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+    <SideNav
+      aria-label="Side navigation"
+      expanded={expanded}
+      isFixedNav
+      className="fixed top-12 left-0 bottom-0 z-40"
+    >
+      <SideNavItems>
+        {navItems.map((item) => {
+          const isActive = item.url === "/"
+            ? location.pathname === "/"
+            : location.pathname.startsWith(item.url);
+          return (
+            <SideNavLink
+              key={item.title}
+              renderIcon={item.icon}
+              isActive={isActive}
+              onClick={() => navigate(item.url)}
+              className="cursor-pointer"
+            >
+              {item.title}
+            </SideNavLink>
+          );
+        })}
+      </SideNavItems>
+    </SideNav>
   );
 }

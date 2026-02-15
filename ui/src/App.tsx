@@ -1,8 +1,6 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Theme } from "@carbon/react";
 import { AppShell } from "@/components/layout/AppShell";
 import { WatchlistProvider } from "@/lib/watchlist-store";
 import Dashboard from "./pages/Dashboard";
@@ -16,10 +14,8 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+    <Theme theme="g100">
       <WatchlistProvider>
-        <Toaster />
-        <Sonner />
         <BrowserRouter>
           <Routes>
             <Route element={<AppShell />}>
@@ -34,7 +30,7 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </WatchlistProvider>
-    </TooltipProvider>
+    </Theme>
   </QueryClientProvider>
 );
 

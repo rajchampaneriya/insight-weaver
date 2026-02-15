@@ -1,11 +1,10 @@
+import { Tile, Tag, SkeletonPlaceholder, InlineNotification } from "@carbon/react";
 import { useNewsFeed } from "@/hooks/use-market-data";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
 
-const sentimentColors = {
-  positive: "bg-carbon-success/15 text-carbon-success border-carbon-success/30",
-  neutral: "bg-carbon-warning/10 text-carbon-warning border-carbon-warning/30",
-  negative: "bg-carbon-danger/15 text-carbon-danger border-carbon-danger/30",
+const sentimentTagType: Record<string, "green" | "gray" | "red"> = {
+  positive: "green",
+  neutral: "gray",
+  negative: "red",
 };
 
 export function NewsFeed() {
@@ -13,38 +12,45 @@ export function NewsFeed() {
 
   if (isLoading) {
     return (
-      <div className="border bg-card">
-        <div className="px-4 py-3 border-b">
+      <Tile className="p-0">
+        <div className="px-4 py-3 border-b border-border">
           <h2 className="text-sm font-semibold">News & Sentiment</h2>
         </div>
-        <div className="p-4 space-y-3 animate-pulse">
-          {Array.from({ length: 5 }).map((_, i) => (<div key={i} className="h-12 bg-muted rounded" />))}
+        <div className="p-4 space-y-3">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <SkeletonPlaceholder key={i} className="w-full h-12" />
+          ))}
         </div>
-      </div>
+      </Tile>
     );
   }
 
   if (error || !newsFeed) {
     return (
-      <div className="border bg-card">
-        <div className="px-4 py-3 border-b">
+      <Tile className="p-0">
+        <div className="px-4 py-3 border-b border-border">
           <h2 className="text-sm font-semibold">News & Sentiment</h2>
         </div>
-        <div className="p-4 text-sm text-muted-foreground">
-          Failed to load news feed.
-        </div>
-      </div>
+        <InlineNotification
+          kind="error"
+          title="Error"
+          subtitle="Failed to load news feed."
+          lowContrast
+          hideCloseButton
+          className="m-4"
+        />
+      </Tile>
     );
   }
 
   return (
-    <div className="border bg-card">
-      <div className="px-4 py-3 border-b">
+    <Tile className="p-0">
+      <div className="px-4 py-3 border-b border-border">
         <h2 className="text-sm font-semibold">News & Sentiment</h2>
       </div>
-      <div className="divide-y">
+      <div className="divide-y divide-border">
         {newsFeed.map((item) => (
-          <div key={item.id} className="px-4 py-3 hover:bg-accent/30 transition-colors">
+          <div key={item.id} className="px-4 py-3 hover:bg-muted/30 transition-colors">
             <div className="flex items-start gap-3">
               <div className="flex-1 min-w-0">
                 <p className="text-sm leading-snug">{item.headline}</p>
@@ -53,17 +59,17 @@ export function NewsFeed() {
                   <span className="text-[11px] text-muted-foreground">&bull;</span>
                   <span className="text-[11px] text-muted-foreground">{item.time}</span>
                   {item.ticker && (
-                    <span className="font-mono text-[11px] text-primary">{item.ticker}</span>
+                    <span className="font-mono-data text-[11px] text-primary">{item.ticker}</span>
                   )}
                 </div>
               </div>
-              <Badge variant="outline" className={cn("text-[10px] shrink-0 capitalize", sentimentColors[item.sentiment])}>
+              <Tag type={sentimentTagType[item.sentiment] || "gray"} size="sm">
                 {item.sentiment}
-              </Badge>
+              </Tag>
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </Tile>
   );
 }
