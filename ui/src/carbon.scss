@@ -1,6 +1,8 @@
 // IBM Carbon Design System styles
+// Font loading handled by Google Fonts CDN in index.html
+// Disabling Carbon's @font-face generation to avoid duplicate declarations
 @use '@carbon/react' with (
-  $font-path: '@ibm/plex'
+  $css--font-face: false
 );
 
 // Carbon Charts styles

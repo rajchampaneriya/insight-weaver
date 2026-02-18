@@ -69,27 +69,107 @@ export const newsFeed: NewsItem[] = [
   { id: "8", headline: "Sun Pharma receives FDA approval for new generic drug", source: "Moneycontrol", time: "4 hr ago", sentiment: "positive", ticker: "SUNPHARMA" },
 ];
 
-export const quarterlyEarnings = [
-  { quarter: "Q3 FY25", revenue: "₹2,35,800 Cr", pat: "₹18,540 Cr", epsGrowth: "12.4%", margin: "7.9%" },
-  { quarter: "Q2 FY25", revenue: "₹2,28,400 Cr", pat: "₹17,820 Cr", epsGrowth: "8.2%", margin: "7.8%" },
-  { quarter: "Q1 FY25", revenue: "₹2,21,700 Cr", pat: "₹16,950 Cr", epsGrowth: "6.1%", margin: "7.6%" },
-  { quarter: "Q4 FY24", revenue: "₹2,15,200 Cr", pat: "₹15,400 Cr", epsGrowth: "4.8%", margin: "7.2%" },
-];
+export const quarterlyEarnings: Record<string, { quarter: string; revenue: string; pat: string; epsGrowth: string; margin: string }[]> = {
+  RELIANCE: [
+    { quarter: "Q3 FY25", revenue: "₹2,35,800 Cr", pat: "₹18,540 Cr", epsGrowth: "12.4%", margin: "7.9%" },
+    { quarter: "Q2 FY25", revenue: "₹2,28,400 Cr", pat: "₹17,820 Cr", epsGrowth: "8.2%", margin: "7.8%" },
+    { quarter: "Q1 FY25", revenue: "₹2,21,700 Cr", pat: "₹16,950 Cr", epsGrowth: "6.1%", margin: "7.6%" },
+    { quarter: "Q4 FY24", revenue: "₹2,15,200 Cr", pat: "₹15,400 Cr", epsGrowth: "4.8%", margin: "7.2%" },
+  ],
+  TCS: [
+    { quarter: "Q3 FY25", revenue: "₹64,259 Cr", pat: "₹12,380 Cr", epsGrowth: "5.6%", margin: "19.3%" },
+    { quarter: "Q2 FY25", revenue: "₹63,047 Cr", pat: "₹12,105 Cr", epsGrowth: "8.7%", margin: "19.2%" },
+    { quarter: "Q1 FY25", revenue: "₹62,613 Cr", pat: "₹11,909 Cr", epsGrowth: "9.1%", margin: "19.0%" },
+    { quarter: "Q4 FY24", revenue: "₹61,237 Cr", pat: "₹11,392 Cr", epsGrowth: "7.4%", margin: "18.6%" },
+  ],
+  HDFCBANK: [
+    { quarter: "Q3 FY25", revenue: "₹85,790 Cr", pat: "₹16,736 Cr", epsGrowth: "2.1%", margin: "19.5%" },
+    { quarter: "Q2 FY25", revenue: "₹84,026 Cr", pat: "₹16,474 Cr", epsGrowth: "5.3%", margin: "19.6%" },
+    { quarter: "Q1 FY25", revenue: "₹82,096 Cr", pat: "₹16,175 Cr", epsGrowth: "35.3%", margin: "19.7%" },
+    { quarter: "Q4 FY24", revenue: "₹78,738 Cr", pat: "₹16,512 Cr", epsGrowth: "37.1%", margin: "21.0%" },
+  ],
+  INFY: [
+    { quarter: "Q3 FY25", revenue: "₹41,764 Cr", pat: "₹6,806 Cr", epsGrowth: "11.4%", margin: "16.3%" },
+    { quarter: "Q2 FY25", revenue: "₹40,986 Cr", pat: "₹6,506 Cr", epsGrowth: "4.7%", margin: "15.9%" },
+    { quarter: "Q1 FY25", revenue: "₹39,315 Cr", pat: "₹6,368 Cr", epsGrowth: "7.1%", margin: "16.2%" },
+    { quarter: "Q4 FY24", revenue: "₹37,923 Cr", pat: "₹7,969 Cr", epsGrowth: "29.8%", margin: "21.0%" },
+  ],
+  TATAMOTORS: [
+    { quarter: "Q3 FY25", revenue: "₹1,13,575 Cr", pat: "₹5,578 Cr", epsGrowth: "-22.3%", margin: "4.9%" },
+    { quarter: "Q2 FY25", revenue: "₹1,01,450 Cr", pat: "₹3,343 Cr", epsGrowth: "-11.8%", margin: "3.3%" },
+    { quarter: "Q1 FY25", revenue: "₹1,08,048 Cr", pat: "₹5,692 Cr", epsGrowth: "73.7%", margin: "5.3%" },
+    { quarter: "Q4 FY24", revenue: "₹1,19,986 Cr", pat: "₹7,558 Cr", epsGrowth: "46.4%", margin: "6.3%" },
+  ],
+  ADANIENT: [
+    { quarter: "Q3 FY25", revenue: "₹23,350 Cr", pat: "₹1,290 Cr", epsGrowth: "42.6%", margin: "5.5%" },
+    { quarter: "Q2 FY25", revenue: "₹23,196 Cr", pat: "₹1,742 Cr", epsGrowth: "664.4%", margin: "7.5%" },
+    { quarter: "Q1 FY25", revenue: "₹25,472 Cr", pat: "₹1,455 Cr", epsGrowth: "116.1%", margin: "5.7%" },
+    { quarter: "Q4 FY24", revenue: "₹22,076 Cr", pat: "₹898 Cr", epsGrowth: "38.2%", margin: "4.1%" },
+  ],
+  SUNPHARMA: [
+    { quarter: "Q3 FY25", revenue: "₹13,675 Cr", pat: "₹3,037 Cr", epsGrowth: "25.8%", margin: "22.2%" },
+    { quarter: "Q2 FY25", revenue: "₹13,347 Cr", pat: "₹3,040 Cr", epsGrowth: "28.2%", margin: "22.8%" },
+    { quarter: "Q1 FY25", revenue: "₹12,652 Cr", pat: "₹2,836 Cr", epsGrowth: "40.2%", margin: "22.4%" },
+    { quarter: "Q4 FY24", revenue: "₹11,813 Cr", pat: "₹2,655 Cr", epsGrowth: "34.5%", margin: "22.5%" },
+  ],
+  WIPRO: [
+    { quarter: "Q3 FY25", revenue: "₹22,319 Cr", pat: "₹3,354 Cr", epsGrowth: "24.5%", margin: "15.0%" },
+    { quarter: "Q2 FY25", revenue: "₹22,302 Cr", pat: "₹3,209 Cr", epsGrowth: "21.2%", margin: "14.4%" },
+    { quarter: "Q1 FY25", revenue: "₹21,964 Cr", pat: "₹3,003 Cr", epsGrowth: "4.6%", margin: "13.7%" },
+    { quarter: "Q4 FY24", revenue: "₹22,208 Cr", pat: "₹2,835 Cr", epsGrowth: "-7.6%", margin: "12.8%" },
+  ],
+};
 
-export const priceHistory = [
-  { date: "Jan", price: 2680 },
-  { date: "Feb", price: 2720 },
-  { date: "Mar", price: 2650 },
-  { date: "Apr", price: 2780 },
-  { date: "May", price: 2830 },
-  { date: "Jun", price: 2900 },
-  { date: "Jul", price: 2850 },
-  { date: "Aug", price: 2920 },
-  { date: "Sep", price: 2880 },
-  { date: "Oct", price: 2960 },
-  { date: "Nov", price: 2910 },
-  { date: "Dec", price: 2945 },
-];
+export const priceHistory: Record<string, { date: string; price: number }[]> = {
+  RELIANCE: [
+    { date: "Jan", price: 2680 }, { date: "Feb", price: 2720 }, { date: "Mar", price: 2650 },
+    { date: "Apr", price: 2780 }, { date: "May", price: 2830 }, { date: "Jun", price: 2900 },
+    { date: "Jul", price: 2850 }, { date: "Aug", price: 2920 }, { date: "Sep", price: 2880 },
+    { date: "Oct", price: 2960 }, { date: "Nov", price: 2910 }, { date: "Dec", price: 2945 },
+  ],
+  TCS: [
+    { date: "Jan", price: 3850 }, { date: "Feb", price: 3920 }, { date: "Mar", price: 3780 },
+    { date: "Apr", price: 3960 }, { date: "May", price: 4050 }, { date: "Jun", price: 3890 },
+    { date: "Jul", price: 3950 }, { date: "Aug", price: 4100 }, { date: "Sep", price: 4180 },
+    { date: "Oct", price: 4050 }, { date: "Nov", price: 4200 }, { date: "Dec", price: 4128 },
+  ],
+  HDFCBANK: [
+    { date: "Jan", price: 1520 }, { date: "Feb", price: 1480 }, { date: "Mar", price: 1540 },
+    { date: "Apr", price: 1580 }, { date: "May", price: 1620 }, { date: "Jun", price: 1590 },
+    { date: "Jul", price: 1650 }, { date: "Aug", price: 1680 }, { date: "Sep", price: 1640 },
+    { date: "Oct", price: 1700 }, { date: "Nov", price: 1660 }, { date: "Dec", price: 1685 },
+  ],
+  INFY: [
+    { date: "Jan", price: 1620 }, { date: "Feb", price: 1580 }, { date: "Mar", price: 1650 },
+    { date: "Apr", price: 1700 }, { date: "May", price: 1680 }, { date: "Jun", price: 1740 },
+    { date: "Jul", price: 1780 }, { date: "Aug", price: 1820 }, { date: "Sep", price: 1760 },
+    { date: "Oct", price: 1850 }, { date: "Nov", price: 1870 }, { date: "Dec", price: 1892 },
+  ],
+  TATAMOTORS: [
+    { date: "Jan", price: 920 }, { date: "Feb", price: 960 }, { date: "Mar", price: 880 },
+    { date: "Apr", price: 850 }, { date: "May", price: 810 }, { date: "Jun", price: 790 },
+    { date: "Jul", price: 820 }, { date: "Aug", price: 780 }, { date: "Sep", price: 760 },
+    { date: "Oct", price: 740 }, { date: "Nov", price: 730 }, { date: "Dec", price: 748 },
+  ],
+  ADANIENT: [
+    { date: "Jan", price: 2480 }, { date: "Feb", price: 2550 }, { date: "Mar", price: 2420 },
+    { date: "Apr", price: 2380 }, { date: "May", price: 2510 }, { date: "Jun", price: 2580 },
+    { date: "Jul", price: 2650 }, { date: "Aug", price: 2520 }, { date: "Sep", price: 2610 },
+    { date: "Oct", price: 2550 }, { date: "Nov", price: 2590 }, { date: "Dec", price: 2634 },
+  ],
+  SUNPHARMA: [
+    { date: "Jan", price: 1420 }, { date: "Feb", price: 1480 }, { date: "Mar", price: 1510 },
+    { date: "Apr", price: 1550 }, { date: "May", price: 1580 }, { date: "Jun", price: 1620 },
+    { date: "Jul", price: 1660 }, { date: "Aug", price: 1640 }, { date: "Sep", price: 1700 },
+    { date: "Oct", price: 1720 }, { date: "Nov", price: 1740 }, { date: "Dec", price: 1756 },
+  ],
+  WIPRO: [
+    { date: "Jan", price: 480 }, { date: "Feb", price: 490 }, { date: "Mar", price: 475 },
+    { date: "Apr", price: 495 }, { date: "May", price: 510 }, { date: "Jun", price: 520 },
+    { date: "Jul", price: 505 }, { date: "Aug", price: 530 }, { date: "Sep", price: 525 },
+    { date: "Oct", price: 540 }, { date: "Nov", price: 535 }, { date: "Dec", price: 542 },
+  ],
+};
 
 export const allStocks: Stock[] = [
   ...unusualMovers,

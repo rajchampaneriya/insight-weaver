@@ -72,7 +72,84 @@ public class MarketDataService : IMarketDataService
             new("Q2 FY25", "2,28,400 Cr", "17,820 Cr", "8.2%", "7.8%"),
             new("Q1 FY25", "2,21,700 Cr", "16,950 Cr", "6.1%", "7.6%"),
             new("Q4 FY24", "2,15,200 Cr", "15,400 Cr", "4.8%", "7.2%"),
-        ]
+        ],
+        ["TCS"] =
+        [
+            new("Q3 FY25", "64,259 Cr", "12,380 Cr", "5.6%", "19.3%"),
+            new("Q2 FY25", "63,047 Cr", "12,105 Cr", "8.7%", "19.2%"),
+            new("Q1 FY25", "62,613 Cr", "11,909 Cr", "9.1%", "19.0%"),
+            new("Q4 FY24", "61,237 Cr", "11,392 Cr", "7.4%", "18.6%"),
+        ],
+        ["HDFCBANK"] =
+        [
+            new("Q3 FY25", "85,790 Cr", "16,736 Cr", "2.1%", "19.5%"),
+            new("Q2 FY25", "84,026 Cr", "16,474 Cr", "5.3%", "19.6%"),
+            new("Q1 FY25", "82,096 Cr", "16,175 Cr", "35.3%", "19.7%"),
+            new("Q4 FY24", "78,738 Cr", "16,512 Cr", "37.1%", "21.0%"),
+        ],
+        ["INFY"] =
+        [
+            new("Q3 FY25", "41,764 Cr", "6,806 Cr", "11.4%", "16.3%"),
+            new("Q2 FY25", "40,986 Cr", "6,506 Cr", "4.7%", "15.9%"),
+            new("Q1 FY25", "39,315 Cr", "6,368 Cr", "7.1%", "16.2%"),
+            new("Q4 FY24", "37,923 Cr", "7,969 Cr", "29.8%", "21.0%"),
+        ],
+        ["TATAMOTORS"] =
+        [
+            new("Q3 FY25", "1,13,575 Cr", "5,578 Cr", "-22.3%", "4.9%"),
+            new("Q2 FY25", "1,01,450 Cr", "3,343 Cr", "-11.8%", "3.3%"),
+            new("Q1 FY25", "1,08,048 Cr", "5,692 Cr", "73.7%", "5.3%"),
+            new("Q4 FY24", "1,19,986 Cr", "7,558 Cr", "46.4%", "6.3%"),
+        ],
+        ["ADANIENT"] =
+        [
+            new("Q3 FY25", "23,350 Cr", "1,290 Cr", "42.6%", "5.5%"),
+            new("Q2 FY25", "23,196 Cr", "1,742 Cr", "664.4%", "7.5%"),
+            new("Q1 FY25", "25,472 Cr", "1,455 Cr", "116.1%", "5.7%"),
+            new("Q4 FY24", "22,076 Cr", "898 Cr", "38.2%", "4.1%"),
+        ],
+        ["SUNPHARMA"] =
+        [
+            new("Q3 FY25", "13,675 Cr", "3,037 Cr", "25.8%", "22.2%"),
+            new("Q2 FY25", "13,347 Cr", "3,040 Cr", "28.2%", "22.8%"),
+            new("Q1 FY25", "12,652 Cr", "2,836 Cr", "40.2%", "22.4%"),
+            new("Q4 FY24", "11,813 Cr", "2,655 Cr", "34.5%", "22.5%"),
+        ],
+        ["WIPRO"] =
+        [
+            new("Q3 FY25", "22,319 Cr", "3,354 Cr", "24.5%", "15.0%"),
+            new("Q2 FY25", "22,302 Cr", "3,209 Cr", "21.2%", "14.4%"),
+            new("Q1 FY25", "21,964 Cr", "3,003 Cr", "4.6%", "13.7%"),
+            new("Q4 FY24", "22,208 Cr", "2,835 Cr", "-7.6%", "12.8%"),
+        ],
+        ["ICICIBANK"] =
+        [
+            new("Q3 FY25", "48,280 Cr", "11,792 Cr", "14.8%", "24.4%"),
+            new("Q2 FY25", "46,081 Cr", "11,746 Cr", "14.5%", "25.5%"),
+            new("Q1 FY25", "44,424 Cr", "11,059 Cr", "14.6%", "24.9%"),
+            new("Q4 FY24", "42,907 Cr", "10,708 Cr", "17.4%", "25.0%"),
+        ],
+        ["HINDUNILVR"] =
+        [
+            new("Q3 FY25", "15,818 Cr", "2,984 Cr", "19.1%", "18.9%"),
+            new("Q2 FY25", "15,319 Cr", "2,612 Cr", "2.2%", "17.0%"),
+            new("Q1 FY25", "15,706 Cr", "2,538 Cr", "2.8%", "16.2%"),
+            new("Q4 FY24", "14,693 Cr", "2,406 Cr", "-5.9%", "16.4%"),
+        ],
+        ["BHARTIARTL"] =
+        [
+            new("Q3 FY25", "45,129 Cr", "5,514 Cr", "97.6%", "12.2%"),
+            new("Q2 FY25", "41,473 Cr", "3,593 Cr", "168.0%", "8.7%"),
+            new("Q1 FY25", "38,506 Cr", "4,160 Cr", "234.0%", "10.8%"),
+            new("Q4 FY24", "37,588 Cr", "2,841 Cr", "29.5%", "7.6%"),
+        ],
+        ["KOTAKBANK"] =
+        [
+            new("Q3 FY25", "16,050 Cr", "3,304 Cr", "10.5%", "20.6%"),
+            new("Q2 FY25", "15,180 Cr", "3,344 Cr", "-0.5%", "22.0%"),
+            new("Q1 FY25", "14,396 Cr", "6,250 Cr", "81.3%", "43.4%"),
+            new("Q4 FY24", "13,269 Cr", "4,133 Cr", "18.3%", "31.1%"),
+        ],
     };
 
     private static readonly Dictionary<string, PricePoint[]> PriceHistoryData = new()
@@ -83,7 +160,84 @@ public class MarketDataService : IMarketDataService
             new("Apr", 2780m), new("May", 2830m), new("Jun", 2900m),
             new("Jul", 2850m), new("Aug", 2920m), new("Sep", 2880m),
             new("Oct", 2960m), new("Nov", 2910m), new("Dec", 2945m),
-        ]
+        ],
+        ["TCS"] =
+        [
+            new("Jan", 3850m), new("Feb", 3920m), new("Mar", 3780m),
+            new("Apr", 3960m), new("May", 4050m), new("Jun", 3890m),
+            new("Jul", 3950m), new("Aug", 4100m), new("Sep", 4180m),
+            new("Oct", 4050m), new("Nov", 4200m), new("Dec", 4128m),
+        ],
+        ["HDFCBANK"] =
+        [
+            new("Jan", 1520m), new("Feb", 1480m), new("Mar", 1540m),
+            new("Apr", 1580m), new("May", 1620m), new("Jun", 1590m),
+            new("Jul", 1650m), new("Aug", 1680m), new("Sep", 1640m),
+            new("Oct", 1700m), new("Nov", 1660m), new("Dec", 1685m),
+        ],
+        ["INFY"] =
+        [
+            new("Jan", 1620m), new("Feb", 1580m), new("Mar", 1650m),
+            new("Apr", 1700m), new("May", 1680m), new("Jun", 1740m),
+            new("Jul", 1780m), new("Aug", 1820m), new("Sep", 1760m),
+            new("Oct", 1850m), new("Nov", 1870m), new("Dec", 1892m),
+        ],
+        ["TATAMOTORS"] =
+        [
+            new("Jan", 920m), new("Feb", 960m), new("Mar", 880m),
+            new("Apr", 850m), new("May", 810m), new("Jun", 790m),
+            new("Jul", 820m), new("Aug", 780m), new("Sep", 760m),
+            new("Oct", 740m), new("Nov", 730m), new("Dec", 748m),
+        ],
+        ["ADANIENT"] =
+        [
+            new("Jan", 2480m), new("Feb", 2550m), new("Mar", 2420m),
+            new("Apr", 2380m), new("May", 2510m), new("Jun", 2580m),
+            new("Jul", 2650m), new("Aug", 2520m), new("Sep", 2610m),
+            new("Oct", 2550m), new("Nov", 2590m), new("Dec", 2634m),
+        ],
+        ["SUNPHARMA"] =
+        [
+            new("Jan", 1420m), new("Feb", 1480m), new("Mar", 1510m),
+            new("Apr", 1550m), new("May", 1580m), new("Jun", 1620m),
+            new("Jul", 1660m), new("Aug", 1640m), new("Sep", 1700m),
+            new("Oct", 1720m), new("Nov", 1740m), new("Dec", 1756m),
+        ],
+        ["WIPRO"] =
+        [
+            new("Jan", 480m), new("Feb", 490m), new("Mar", 475m),
+            new("Apr", 495m), new("May", 510m), new("Jun", 520m),
+            new("Jul", 505m), new("Aug", 530m), new("Sep", 525m),
+            new("Oct", 540m), new("Nov", 535m), new("Dec", 542m),
+        ],
+        ["ICICIBANK"] =
+        [
+            new("Jan", 1050m), new("Feb", 1080m), new("Mar", 1110m),
+            new("Apr", 1090m), new("May", 1130m), new("Jun", 1160m),
+            new("Jul", 1150m), new("Aug", 1190m), new("Sep", 1210m),
+            new("Oct", 1220m), new("Nov", 1240m), new("Dec", 1245m),
+        ],
+        ["HINDUNILVR"] =
+        [
+            new("Jan", 2520m), new("Feb", 2480m), new("Mar", 2450m),
+            new("Apr", 2470m), new("May", 2440m), new("Jun", 2420m),
+            new("Jul", 2400m), new("Aug", 2390m), new("Sep", 2410m),
+            new("Oct", 2380m), new("Nov", 2370m), new("Dec", 2380m),
+        ],
+        ["BHARTIARTL"] =
+        [
+            new("Jan", 1180m), new("Feb", 1220m), new("Mar", 1280m),
+            new("Apr", 1310m), new("May", 1350m), new("Jun", 1380m),
+            new("Jul", 1420m), new("Aug", 1460m), new("Sep", 1490m),
+            new("Oct", 1520m), new("Nov", 1550m), new("Dec", 1580m),
+        ],
+        ["KOTAKBANK"] =
+        [
+            new("Jan", 1720m), new("Feb", 1740m), new("Mar", 1710m),
+            new("Apr", 1730m), new("May", 1760m), new("Jun", 1780m),
+            new("Jul", 1770m), new("Aug", 1790m), new("Sep", 1800m),
+            new("Oct", 1810m), new("Nov", 1830m), new("Dec", 1820m),
+        ],
     };
 
     // Default price history for stocks without specific data
