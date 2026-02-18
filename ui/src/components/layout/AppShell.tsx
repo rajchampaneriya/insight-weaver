@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { Content, Theme } from "@carbon/react";
 import { AppHeader } from "./AppHeader";
@@ -11,12 +11,13 @@ export function AppShell() {
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [sideNavExpanded, setSideNavExpanded] = useState(true);
 
+  // Sync dark class on mount and when isDark changes
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark);
+  }, [isDark]);
+
   const toggleTheme = useCallback(() => {
-    setIsDark((prev) => {
-      const next = !prev;
-      document.documentElement.classList.toggle("dark", next);
-      return next;
-    });
+    setIsDark((prev) => !prev);
   }, []);
 
   return (

@@ -24,23 +24,64 @@ import { LineChart } from "@carbon/charts-react";
 
 function parseBrief(content: string) {
   const sections = { story: "", numbers: "", moat: "", risks: "" };
-  const storyMatch = content.match(
-    /\*\*The Story\*\*[:\s]*([\s\S]*?)(?=\*\*The Numbers\*\*|$)/i
-  );
-  const numbersMatch = content.match(
-    /\*\*The Numbers\*\*[:\s]*([\s\S]*?)(?=\*\*The Moat\*\*|$)/i
-  );
-  const moatMatch = content.match(
-    /\*\*The Moat\*\*[:\s]*([\s\S]*?)(?=\*\*The Risks\*\*|$)/i
-  );
-  const risksMatch = content.match(
-    /\*\*The Risks\*\*[:\s]*([\s\S]*?)(?=This is AI-generated|$)/i
-  );
-  sections.story =
-    storyMatch?.[1]?.trim() || content.slice(0, content.length / 4);
-  sections.numbers = numbersMatch?.[1]?.trim() || "";
-  sections.moat = moatMatch?.[1]?.trim() || "";
-  sections.risks = risksMatch?.[1]?.trim() || "";
+
+  // Match multiple heading formats the AI model might produce:
+  //   **The Story**:  |  **The Story:**  |  ## The Story  |  ### The Story  |  The Story:
+  const heading = (label: string) =>
+    new RegExp(
+      `(?:#{1,3}\\s*|\\*\\*)?(?:(?:\\d+\\.?\\s*)?)${label}\\**[:\\s]*`,
+      "i"
+    );
+
+  const storyIdx = content.search(heading("The Story"));
+  const numbersIdx = content.search(heading("The Numbers"));
+  const moatIdx = content.search(heading("The Moat"));
+  const risksIdx = content.search(heading("The Risks"));
+
+  // Build ordered list of found sections with their indices
+  const found: { key: keyof typeof sections; idx: number }[] = [
+    { key: "story", idx: storyIdx },
+    { key: "numbers", idx: numbersIdx },
+    { key: "moat", idx: moatIdx },
+    { key: "risks", idx: risksIdx },
+  ]
+    .filter((s) => s.idx >= 0)
+    .sort((a, b) => a.idx - b.idx);
+
+  // Extract content between each section heading and the next
+  for (let i = 0; i < found.length; i++) {
+    const headingMatch = content.slice(found[i].idx).match(heading(
+      found[i].key === "story" ? "The Story" :
+      found[i].key === "numbers" ? "The Numbers" :
+      found[i].key === "moat" ? "The Moat" : "The Risks"
+    ));
+    const startOffset = headingMatch ? headingMatch[0].length : 0;
+    const start = found[i].idx + startOffset;
+    const end = i + 1 < found.length ? found[i + 1].idx : content.length;
+    let text = content.slice(start, end).trim();
+    // Strip trailing disclaimer line if present at the end of the last section
+    if (i === found.length - 1) {
+      text = text.replace(
+        /\n*(?:---\n*)?(?:This is AI-generated|Disclaimer:)[\s\S]*$/i,
+        ""
+      ).trim();
+    }
+    sections[found[i].key] = text;
+  }
+
+  // Fallback: if no sections were parsed, split content into quarters
+  if (found.length === 0 && content.trim().length > 0) {
+    const cleaned = content.replace(
+      /\n*(?:---\n*)?(?:This is AI-generated|Disclaimer:)[\s\S]*$/i,
+      ""
+    ).trim();
+    const quarter = Math.ceil(cleaned.length / 4);
+    sections.story = cleaned.slice(0, quarter).trim();
+    sections.numbers = cleaned.slice(quarter, quarter * 2).trim();
+    sections.moat = cleaned.slice(quarter * 2, quarter * 3).trim();
+    sections.risks = cleaned.slice(quarter * 3).trim();
+  }
+
   return sections;
 }
 

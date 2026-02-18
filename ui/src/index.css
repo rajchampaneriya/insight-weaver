@@ -86,6 +86,28 @@
   background-color: hsl(var(--card));
 }
 
+/* Carbon SideNav link active and hover states */
+.dark .cds--side-nav__link:hover,
+.dark .cds--side-nav__link--current {
+  background-color: hsl(var(--muted));
+}
+
+.dark .cds--side-nav__link > .cds--side-nav__link-text {
+  color: hsl(var(--foreground));
+}
+
+/* Carbon Tile dark mode */
+.dark .cds--tile {
+  background-color: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--border));
+}
+
+.dark .cds--tile--clickable:hover,
+.dark .cds--tile--selectable:hover {
+  background-color: hsl(var(--muted));
+}
+
 /* Carbon DataTable dark mode override */
 .dark .cds--data-table {
   background-color: hsl(var(--card));
@@ -102,9 +124,71 @@
   background-color: hsl(var(--muted));
 }
 
+/* Carbon Tabs dark mode */
+.dark .cds--tabs .cds--tabs__nav-link {
+  color: hsl(var(--muted-foreground));
+}
+
+.dark .cds--tabs .cds--tabs__nav-item--selected .cds--tabs__nav-link {
+  color: hsl(var(--foreground));
+  border-bottom-color: hsl(var(--primary));
+}
+
+.dark .cds--tabs .cds--tabs__nav-link:hover {
+  color: hsl(var(--foreground));
+}
+
+.dark .cds--tab-content {
+  background-color: transparent;
+}
+
+/* Carbon InlineNotification dark mode */
+.dark .cds--inline-notification {
+  color: hsl(var(--foreground));
+}
+
+.dark .cds--inline-notification--low-contrast {
+  background-color: hsl(var(--muted));
+  border-color: hsl(var(--border));
+}
+
 /* Ensure Carbon Tags work in dark mode */
 .dark .cds--tag {
   color: hsl(var(--foreground));
+}
+
+.dark .cds--tag--outline {
+  border-color: hsl(var(--border));
+}
+
+/* Carbon Button dark mode tweaks */
+.dark .cds--btn--tertiary {
+  color: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+}
+
+.dark .cds--btn--tertiary:hover {
+  color: hsl(var(--primary-foreground));
+}
+
+.dark .cds--btn--ghost {
+  color: hsl(var(--foreground));
+}
+
+.dark .cds--btn--ghost:hover {
+  background-color: hsl(var(--muted));
+}
+
+/* Carbon TextInput dark mode */
+.dark .cds--text-input,
+.dark .cds--text-input--empty {
+  background-color: hsl(var(--muted));
+  color: hsl(var(--foreground));
+  border-bottom-color: hsl(var(--border));
+}
+
+.dark .cds--text-input:focus {
+  outline-color: hsl(var(--primary));
 }
 
 /* Carbon Search styling */
@@ -112,7 +196,66 @@
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
+.dark .cds--search-input {
+  background-color: hsl(var(--muted));
+  color: hsl(var(--foreground));
+}
+
+.dark .cds--search-magnifier-icon {
+  fill: hsl(var(--muted-foreground));
+}
+
+/* Carbon Skeleton dark mode */
+.dark .cds--skeleton__placeholder {
+  background-color: hsl(var(--muted));
+}
+
+.dark .cds--skeleton__text {
+  background-color: hsl(var(--muted));
+}
+
+/* Carbon InlineLoading dark mode */
+.dark .cds--inline-loading__text {
+  color: hsl(var(--muted-foreground));
+}
+
+/* Carbon ContentSwitcher dark mode */
+.dark .cds--content-switcher-btn {
+  color: hsl(var(--muted-foreground));
+  background-color: transparent;
+  border-color: hsl(var(--border));
+}
+
+.dark .cds--content-switcher--selected {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--muted));
+}
+
 /* Override Carbon grid to use full width */
 .cds--content {
   padding: 0;
+}
+
+/* Carbon Charts dark mode container */
+.dark .cds--cc--chart-wrapper {
+  background-color: transparent;
+}
+
+/* Scrollbar styling for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
 }

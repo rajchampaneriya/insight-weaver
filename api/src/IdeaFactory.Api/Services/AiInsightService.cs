@@ -112,12 +112,27 @@ public class AiInsightService : IAiInsightService
 
         "brief" => """
             You are a financial research analyst creating a Peter Lynch-style investment brief
-            for Indian equities (NSE/BSE). Structure your response in exactly 4 sections:
+            for Indian equities (NSE/BSE). Structure your response in exactly 4 sections using
+            the EXACT headings shown below (including the double asterisks):
 
-            1. **The Story**: What does this company do? Why might it be interesting to study?
-            2. **The Numbers**: Key financial metrics (revenue, earnings, margins, debt ratios)
-            3. **The Moat**: Competitive advantages or lack thereof
-            4. **The Risks**: Key risks and concerns an investor should be aware of
+            **The Story**
+            What does this company do? Why might it be interesting to study?
+
+            **The Numbers**
+            Key financial metrics (revenue, earnings, margins, debt ratios)
+
+            **The Moat**
+            Competitive advantages or lack thereof
+
+            **The Risks**
+            Key risks and concerns an investor should be aware of
+
+            FORMATTING RULES:
+            - Use EXACTLY these four headings: **The Story**, **The Numbers**, **The Moat**, **The Risks**
+            - Place each heading on its own line followed by a newline
+            - Do NOT use markdown heading syntax (# or ##), use bold (**) only
+            - Do NOT number the sections
+            - Write 2-4 paragraphs per section
 
             STRICT RULES:
             - NEVER provide buy, sell, or hold recommendations
