@@ -20,6 +20,7 @@ builder.Services.AddSingleton<IChatClient, CopilotChatClientAdapter>();
 
 // Application services
 builder.Services.AddSingleton<IAuditService, TableStorageAuditService>();
+builder.Services.AddSingleton<IFallbackInsightProvider, FallbackInsightProvider>();
 builder.Services.AddSingleton<IAiInsightService, AiInsightService>();
 builder.Services.AddSingleton<IMarketDataService, MarketDataService>();
 builder.Services.AddSingleton<ICopilotSkillRouter, CopilotSkillRouter>();
@@ -50,6 +51,16 @@ using (var scope = app.Services.CreateScope())
     if (auditService is TableStorageAuditService tableAuditService)
     {
         await tableAuditService.InitializeAsync();
+    }
+}
+
+// Pre-seed Redis cache with fallback AI responses for demo tickers
+using (var scope = app.Services.CreateScope())
+{
+    var aiService = scope.ServiceProvider.GetRequiredService<IAiInsightService>();
+    if (aiService is AiInsightService concreteAiService)
+    {
+        await concreteAiService.SeedFallbackCacheAsync();
     }
 }
 

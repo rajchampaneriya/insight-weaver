@@ -16,16 +16,20 @@ public class AiInsightService : IAiInsightService
 {
     private readonly IChatClient _chatClient;
     private readonly IConnectionMultiplexer _redis;
+    private readonly IFallbackInsightProvider _fallbackProvider;
     private readonly ILogger<AiInsightService> _logger;
     private static readonly TimeSpan CacheTtl = TimeSpan.FromMinutes(15);
+    public static readonly TimeSpan FallbackCacheTtl = TimeSpan.FromHours(24);
 
     public AiInsightService(
         IChatClient chatClient,
         IConnectionMultiplexer redis,
+        IFallbackInsightProvider fallbackProvider,
         ILogger<AiInsightService> logger)
     {
         _chatClient = chatClient;
         _redis = redis;
+        _fallbackProvider = fallbackProvider;
         _logger = logger;
     }
 
@@ -58,13 +62,35 @@ public class AiInsightService : IAiInsightService
             new(ChatRole.User, userPrompt)
         };
 
-        var response = await _chatClient.GetResponseAsync(
-            messages,
-            cancellationToken: cancellationToken);
+        try
+        {
+            var response = await _chatClient.GetResponseAsync(
+                messages,
+                cancellationToken: cancellationToken);
 
-        var result = response.Text ?? string.Empty;
-        await SetCacheAsync(cacheKey, result);
-        return result;
+            var result = response.Text ?? string.Empty;
+            await SetCacheAsync(cacheKey, result);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(
+                ex,
+                "AI client call failed for {InsightType} on {Ticker}, attempting fallback",
+                insightType, ticker);
+
+            var fallback = _fallbackProvider.GetFallbackResponse(ticker, insightType);
+            if (fallback is not null)
+            {
+                _logger.LogInformation(
+                    "Using fallback response for {InsightType} on {Ticker}",
+                    insightType, ticker);
+                await SetCacheAsync(cacheKey, fallback);
+                return fallback;
+            }
+
+            throw;
+        }
     }
 
     public async Task<string> ChatAsync(
@@ -222,5 +248,40 @@ public class AiInsightService : IAiInsightService
         {
             _logger.LogWarning(ex, "Redis cache write failed for key {Key}", key);
         }
+    }
+
+    /// <summary>
+    /// Pre-seeds Redis cache with fallback responses for demo tickers.
+    /// Uses a longer TTL (24h) to ensure availability throughout the demo session.
+    /// </summary>
+    public async Task SeedFallbackCacheAsync()
+    {
+        var fallbacks = _fallbackProvider.GetAllFallbacks();
+        var db = _redis.GetDatabase();
+        var seeded = 0;
+
+        foreach (var ((ticker, insightType), content) in fallbacks)
+        {
+            try
+            {
+                var cacheKey = BuildCacheKey(ticker, insightType, context: null);
+                await db.StringSetAsync(cacheKey, content.Trim(), FallbackCacheTtl);
+                seeded++;
+                _logger.LogInformation(
+                    "Seeded fallback cache for {InsightType} on {Ticker}",
+                    insightType, ticker);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(
+                    ex,
+                    "Failed to seed fallback cache for {InsightType} on {Ticker}",
+                    insightType, ticker);
+            }
+        }
+
+        _logger.LogInformation(
+            "Fallback cache seeding complete: {Seeded}/{Total} entries",
+            seeded, fallbacks.Count);
     }
 }
