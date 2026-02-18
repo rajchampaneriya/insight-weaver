@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { Button, TextInput, Tag, InlineLoading } from "@carbon/react";
 import { Close, Send, Bot, User, Idea } from "@carbon/icons-react";
 import { useChatMutation } from "@/hooks/use-market-data";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Message {
   role: "user" | "assistant";
@@ -10,9 +12,9 @@ interface Message {
 
 const SUGGESTIONS = [
   "Explain today's move for RELIANCE",
-  "Summarize latest earnings for TCS",
+  "Summarize latest earnings for HDFCBANK",
   "What's the sentiment on ADANIENT?",
-  "Compare INFY vs WIPRO fundamentals",
+  "Compare SUNPHARMA vs BHARTIARTL fundamentals",
 ];
 
 interface AssistantPanelProps {
@@ -112,7 +114,15 @@ export function AssistantPanel({ open, onClose }: AssistantPanelProps) {
                   : "bg-[var(--cds-interactive)] text-white rounded-l-lg rounded-br-lg"
               }`}
             >
-              {m.content}
+              {m.role === "assistant" ? (
+                <div className="prose prose-sm prose-carbon max-w-none">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {m.content}
+                  </ReactMarkdown>
+                </div>
+              ) : (
+                m.content
+              )}
             </div>
             {m.role === "user" && (
               <div className="h-6 w-6 rounded bg-muted flex items-center justify-center shrink-0 mt-0.5">

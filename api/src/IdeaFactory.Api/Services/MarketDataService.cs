@@ -34,6 +34,9 @@ public class MarketDataService : IMarketDataService
         new("Realty", 0.6m),
     ];
 
+    // Competitor IT companies (TCS, INFY, WIPRO) excluded from dashboard views
+    private static readonly string[] ExcludedItTickers = ["TCS", "INFY", "WIPRO"];
+
     private static readonly StockDetail[] AllStocks =
     [
         new("RELIANCE", "Reliance Industries", "NSE", "Energy", 2945.60m, 87.30m, 3.05m, 15200000, 8500000, "19.9L Cr", 28.4m, 3024.90m, 2220.30m, DateTime.UtcNow),
@@ -50,17 +53,20 @@ public class MarketDataService : IMarketDataService
         new("KOTAKBANK", "Kotak Mahindra Bank", "NSE", "Banking", 1820.90m, -14.30m, -0.78m, 3400000, 2800000, "3.6L Cr", 21.4m, 1942.00m, 1544.15m, DateTime.UtcNow),
     ];
 
-    private static readonly StockDetail[] UnusualMoversList = AllStocks[..8];
+    private static readonly StockDetail[] UnusualMoversList = AllStocks
+        .Where(s => !ExcludedItTickers.Contains(s.Ticker))
+        .Take(8)
+        .ToArray();
 
     private static readonly NewsItem[] News =
     [
         new("1", "Reliance Jio crosses 500M subscriber milestone, ARPU rises 12% QoQ", "Economic Times", "14 min ago", "positive", "RELIANCE"),
-        new("2", "TCS warns of slower deal pipeline amid global macro uncertainty", "Moneycontrol", "32 min ago", "negative", "TCS"),
+        new("2", "HDFC Bank reports robust Q3 deposit growth of 15% YoY", "Moneycontrol", "32 min ago", "positive", "HDFCBANK"),
         new("3", "RBI keeps repo rate unchanged at 6.5%, shifts stance to accommodative", "LiveMint", "1 hr ago", "neutral"),
         new("4", "Adani Enterprises wins new coal mining contract worth 12,000 Cr", "Business Standard", "1 hr ago", "positive", "ADANIENT"),
         new("5", "Tata Motors EV sales decline 18% in January, market share under pressure", "NDTV Profit", "2 hr ago", "negative", "TATAMOTORS"),
         new("6", "SEBI proposes new framework for ESG rating providers", "Reuters", "3 hr ago", "neutral"),
-        new("7", "Infosys bags $2B deal with European financial services firm", "Economic Times", "3 hr ago", "positive", "INFY"),
+        new("7", "Bharti Airtel 5G rollout covers 500 cities, subscriber adds accelerate", "Economic Times", "3 hr ago", "positive", "BHARTIARTL"),
         new("8", "Sun Pharma receives FDA approval for new generic drug", "Moneycontrol", "4 hr ago", "positive", "SUNPHARMA"),
     ];
 

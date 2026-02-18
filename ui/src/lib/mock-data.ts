@@ -49,23 +49,23 @@ export const sectorPerformance = [
 
 export const unusualMovers: Stock[] = [
   { ticker: "RELIANCE", name: "Reliance Industries", sector: "Energy", price: 2945.60, change: 87.30, changePercent: 3.05, volume: 15200000, avgVolume: 8500000, marketCap: "₹19.9L Cr", pe: 28.4, high52w: 3024.90, low52w: 2220.30 },
-  { ticker: "TCS", name: "Tata Consultancy Services", sector: "IT", price: 4128.75, change: -62.15, changePercent: -1.48, volume: 4800000, avgVolume: 2100000, marketCap: "₹14.9L Cr", pe: 32.1, high52w: 4592.25, low52w: 3311.05 },
   { ticker: "HDFCBANK", name: "HDFC Bank", sector: "Banking", price: 1685.20, change: 24.80, changePercent: 1.49, volume: 12600000, avgVolume: 9800000, marketCap: "₹12.8L Cr", pe: 19.6, high52w: 1794.00, low52w: 1363.55 },
-  { ticker: "INFY", name: "Infosys", sector: "IT", price: 1892.30, change: 45.60, changePercent: 2.47, volume: 8900000, avgVolume: 5200000, marketCap: "₹7.8L Cr", pe: 29.8, high52w: 1989.40, low52w: 1358.35 },
   { ticker: "TATAMOTORS", name: "Tata Motors", sector: "Auto", price: 748.90, change: -31.20, changePercent: -4.00, volume: 22100000, avgVolume: 11400000, marketCap: "₹2.7L Cr", pe: 8.2, high52w: 1072.00, low52w: 608.30 },
   { ticker: "ADANIENT", name: "Adani Enterprises", sector: "Conglomerate", price: 2634.50, change: 128.40, changePercent: 5.12, volume: 6700000, avgVolume: 3100000, marketCap: "₹3.0L Cr", pe: 72.3, high52w: 3743.90, low52w: 2142.00 },
   { ticker: "SUNPHARMA", name: "Sun Pharma", sector: "Pharma", price: 1756.80, change: 18.90, changePercent: 1.09, volume: 3200000, avgVolume: 2800000, marketCap: "₹4.2L Cr", pe: 38.5, high52w: 1960.60, low52w: 1208.25 },
-  { ticker: "WIPRO", name: "Wipro", sector: "IT", price: 542.15, change: -8.30, changePercent: -1.51, volume: 7400000, avgVolume: 5600000, marketCap: "₹2.8L Cr", pe: 24.7, high52w: 585.65, low52w: 388.70 },
+  { ticker: "ICICIBANK", name: "ICICI Bank", sector: "Banking", price: 1245.30, change: 12.40, changePercent: 1.01, volume: 8900000, avgVolume: 7200000, marketCap: "₹8.7L Cr", pe: 18.2, high52w: 1310.00, low52w: 898.45 },
+  { ticker: "BHARTIARTL", name: "Bharti Airtel", sector: "Telecom", price: 1580.45, change: 22.10, changePercent: 1.42, volume: 5600000, avgVolume: 4100000, marketCap: "₹9.4L Cr", pe: 74.3, high52w: 1778.00, low52w: 1098.65 },
+  { ticker: "KOTAKBANK", name: "Kotak Mahindra Bank", sector: "Banking", price: 1820.90, change: -14.30, changePercent: -0.78, volume: 3400000, avgVolume: 2800000, marketCap: "₹3.6L Cr", pe: 21.4, high52w: 1942.00, low52w: 1544.15 },
 ];
 
 export const newsFeed: NewsItem[] = [
   { id: "1", headline: "Reliance Jio crosses 500M subscriber milestone, ARPU rises 12% QoQ", source: "Economic Times", time: "14 min ago", sentiment: "positive", ticker: "RELIANCE" },
-  { id: "2", headline: "TCS warns of slower deal pipeline amid global macro uncertainty", source: "Moneycontrol", time: "32 min ago", sentiment: "negative", ticker: "TCS" },
+  { id: "2", headline: "HDFC Bank reports robust Q3 deposit growth of 15% YoY", source: "Moneycontrol", time: "32 min ago", sentiment: "positive", ticker: "HDFCBANK" },
   { id: "3", headline: "RBI keeps repo rate unchanged at 6.5%, shifts stance to accommodative", source: "LiveMint", time: "1 hr ago", sentiment: "neutral" },
   { id: "4", headline: "Adani Enterprises wins new coal mining contract worth ₹12,000 Cr", source: "Business Standard", time: "1 hr ago", sentiment: "positive", ticker: "ADANIENT" },
   { id: "5", headline: "Tata Motors EV sales decline 18% in January, market share under pressure", source: "NDTV Profit", time: "2 hr ago", sentiment: "negative", ticker: "TATAMOTORS" },
   { id: "6", headline: "SEBI proposes new framework for ESG rating providers", source: "Reuters", time: "3 hr ago", sentiment: "neutral" },
-  { id: "7", headline: "Infosys bags $2B deal with European financial services firm", source: "Economic Times", time: "3 hr ago", sentiment: "positive", ticker: "INFY" },
+  { id: "7", headline: "Bharti Airtel 5G rollout covers 500 cities, subscriber adds accelerate", source: "Economic Times", time: "3 hr ago", sentiment: "positive", ticker: "BHARTIARTL" },
   { id: "8", headline: "Sun Pharma receives FDA approval for new generic drug", source: "Moneycontrol", time: "4 hr ago", sentiment: "positive", ticker: "SUNPHARMA" },
 ];
 

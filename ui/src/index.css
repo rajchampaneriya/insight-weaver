@@ -259,3 +259,51 @@
 .dark ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground));
 }
+
+/* Chat markdown prose overrides */
+.prose-carbon {
+  --tw-prose-body: hsl(var(--foreground));
+  --tw-prose-headings: hsl(var(--foreground));
+  --tw-prose-bold: hsl(var(--foreground));
+  --tw-prose-counters: hsl(var(--muted-foreground));
+  --tw-prose-bullets: hsl(var(--muted-foreground));
+  --tw-prose-th-borders: hsl(var(--border));
+  --tw-prose-td-borders: hsl(var(--border));
+}
+
+.prose-carbon p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.prose-carbon table {
+  font-size: 0.75rem;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose-carbon th,
+.prose-carbon td {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid hsl(var(--border));
+  text-align: left;
+}
+
+.prose-carbon th {
+  font-weight: 600;
+  background: hsl(var(--muted));
+}
+
+.prose-carbon ul,
+.prose-carbon ol {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  padding-left: 1.25em;
+}
+
+.prose-carbon li {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
