@@ -165,3 +165,17 @@ Layer 3 introduces the idea that AI context should be engineered -- structured s
 - In the first comment, add: "The three-layer approach works for any AI experiment, not just financial analytics. If you are sitting on an AI hypothesis, the question is not whether the model can do it. It is whether you have an environment where you can find out."
 - Second comment: "For the engineers asking about implementation details -- that is coming on Day 4. The method post will cover the middleware pipeline, the skill router architecture, and the Aspire topology in depth."
 - Third comment: "Full architecture is open-source. Link in the Day 7 post."
+
+## Retroactive Comment (add NOW -- Day 3 is live)
+
+Go to the published Day 2 post and add this as a new comment:
+
+```
+Update: Day 3 is live -- the working demo.
+
+The three layers described here are now running as a live application. Day 3 shows two entry points: a conversational chat interface and a structured AI Brief that generates four sections in parallel with a compliance audit trail on every call.
+
+The blueprint became the product.
+
+[paste your Day 3 post URL here]
+```

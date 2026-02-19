@@ -1,25 +1,22 @@
 # Day 3: The Demo
 
 **Theme:** Show, Don't Tell
-**Goal:** Prove it works. This is the "Digital Proof of Concept" -- showing how an architect can experiment and produce evidence rapidly.
-**Format:** Text Post + Native Video (30-45 seconds) or Embedded GIF
+**Goal:** Prove it works. Two real scenarios from the running application -- no mockups, no slides.
+**Format:** Text Post with two screenshots (attach both images as a carousel)
 
 ---
 
 ## Visual Brief
 
-**Image/Video:** `Day-3 Image.png` (thumbnail) + recorded GIF/video
+**Images:** Two screenshots from the live application (dark theme, IBM Carbon UI)
 
-**Required Visual:** A 30-second silent screen recording with clean text overlays on a dark background. No voiceover. No background music. LinkedIn autoplay is silent -- the content must communicate visually.
+**Scenario 1 -- Chat Interface:**
+The AI Assistant panel. User types: "Summarize latest earnings for HDFCBANK". The assistant responds with Q3 FY2025 earnings details -- net profit, NII, gross NPA -- and closes with: "This is AI-generated analysis for informational purposes only. Not investment advice."
 
-**Recording Sequence:**
-1. **0-5s:** Open the Idea Factory Dashboard (IBM Carbon UI, dark theme). Text overlay: "The Idea Factory"
-2. **5-12s:** Navigate to experiment template selector. Text overlay: "Step 1: Select Experiment"
-3. **12-20s:** Configure parameters (ticker: INFY, analysis type: AI-assisted document analysis). Text overlay: "Step 2: Configure Parameters"
-4. **20-28s:** Click "Run" -- show the progress indicator, then the generated evidence report. Text overlay: "Step 3: Evidence Generated"
-5. **28-30s:** Final frame showing the completed report. Large text overlay: "Time Elapsed: 2.5 hours. Budget Request: Rs 0."
+**Scenario 2 -- AI Generated Brief:**
+The stock detail page for HDFC Bank (HDFCBANK, Banking, NSE). "AI Brief" tab is active. Four structured sections visible: Business Model Summary, Moat Analysis, Key Metrics & Valuation, Key Risks. Brief is generating in real time. Audit trail line at the bottom: "Timestamp, model version, and data sources will be logged here."
 
-**Critical:** Flash-to-bang time (time for the viewer to see value) must be under 5 seconds. The dashboard should already be visible in frame 1.
+**Critical:** Flash-to-bang time (time for the viewer to see value) must be under 5 seconds. Use the screenshots as-is -- the dark theme and Carbon UI are the visual proof.
 
 ---
 
@@ -28,49 +25,63 @@
 ```
 Talk is cheap. Show me the experiment.
 
-Here's a live capture of the Idea Factory in action:
+Here's Idea Factory running live -- two ways to get AI-generated equity insight:
 
-1. Select: Choose an experiment template (this one tests AI-assisted document analysis for NSE stocks)
-2. Configure: Set parameters and data boundaries
-3. Execute: Run locally on standard hardware
-4. Evidence: Review generated metrics and recommendations
+Scenario 1: Chat
+Ask the AI assistant anything about an NSE/BSE stock.
+"Summarize latest earnings for HDFCBANK"
+-- and you get Q3 FY2025 financials in seconds.
+No analyst call. No waiting.
 
-Notice what's missing? The budget approval form.
+Scenario 2: AI Brief
+Open any stock. Hit the AI Brief tab.
+Four sections generate in parallel: Business Model, Moat Analysis, Key Metrics, Key Risks.
+Every response is logged with a full audit trail -- model version, timestamp, data sources.
 
-This architect moved from hypothesis to evidence in under 3 hours -- using existing resources, within governance guardrails.
+Two interfaces. One compliance guardrail. Zero budget approval forms.
 
-Now they have data to support a scaling decision. Not a theoretical business case. Real evidence.
+This is what a governed AI prototype looks like in practice.
 
-#Demo #Innovation #EnterpriseArchitecture #Engineering
+#Demo #Innovation #EnterpriseArchitecture #IndianEquities
 ```
 
 ---
 
 ## Character Count
 
-~600 characters
+~650 characters
 
 ## Engagement Hooks
 
-- **"Talk is cheap."** -- a Linus Torvalds reference that resonates deeply with the engineering audience. Instant credibility signal.
-- **Video/GIF format** gets 5x more engagement than text-only posts on LinkedIn. The algorithm prioritizes native video.
-- **"Notice what's missing?"** -- rhetorical question forces the reader to reflect on the absence of bureaucracy. More powerful than stating the benefit directly.
-- **Quantified outcome** ("under 3 hours", "Rs 0") gives the audience concrete numbers to cite when sharing with their leadership.
+- **Two concrete scenarios** give the audience two different entry points -- conversational users and structured-analysis users both see themselves in the demo.
+- **"Zero budget approval forms"** -- the punchline lands harder because the audience has just seen real output, not a slide.
+- **Audit trail detail** signals enterprise-readiness without a separate explanation. Engineers and compliance leads both notice it.
+- **Parallel generation** (four sections at once) is a visual proof of capability that a screenshot communicates instantly.
 
 ## Posting Notes
 
-- Upload as LinkedIn native video, not a YouTube link. Native video autoplays in the feed.
-- If using GIF, convert to MP4 first -- LinkedIn doesn't support GIF uploads natively.
-- Record the demo from the actual running application (dotnet run --project api/src/IdeaFactory.AppHost). Use a screen recorder with a clean desktop.
+- Attach both screenshots as a native LinkedIn carousel (up to 10 images per post). Do not embed as links.
+- Crop screenshots to remove browser chrome -- application UI only.
 - Post on Thursday 8:00 AM IST.
-- In the first comment, add: "Built with .NET Aspire + IBM Carbon. The stack matters less than the methodology."
+- In the first comment, add: "Built with .NET 10 + Microsoft.Extensions.AI + IBM Carbon. The stack is production-grade -- this is not a weekend hack. Compliance audit trail is live on every AI call."
+- In the second comment, add the series links to pull Day 1 and Day 2 audience into this post:
 
-## Demo Recording Checklist
+```
+If you missed the earlier posts in this series:
 
-- [ ] Clean desktop -- no personal bookmarks, notifications, or unrelated tabs
-- [ ] Browser zoom at 110% for readability on mobile
-- [ ] Dark theme enabled in the application
-- [ ] Use a ticker the audience recognizes (INFY, TCS, RELIANCE)
-- [ ] Record at 1080p minimum
-- [ ] Add text overlays in post-production (use Figma or After Effects)
-- [ ] Final file: MP4, under 20MB, 30 seconds max
+Day 1 -- The problem: why innovation stalls before it starts
+[]
+
+Day 2 -- The blueprint: three layers that make this possible
+[]
+
+This is Day 3. The experiment is running.
+```
+
+## Demo Checklist
+
+- [ ] Screenshot 1: Chat interface showing HDFCBANK earnings summary and disclaimer
+- [ ] Screenshot 2: AI Brief tab for HDFC Bank showing four generating sections and audit trail footer
+- [ ] Both screenshots cropped to application UI only (no browser chrome or OS taskbar)
+- [ ] Dark theme confirmed in both images
+- [ ] Images exported at 1200x630px minimum for LinkedIn carousel quality

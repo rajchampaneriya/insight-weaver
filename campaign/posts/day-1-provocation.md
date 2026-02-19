@@ -67,3 +67,17 @@ Tomorrow, I'll share the blueprint for an "Idea Factory" that enables innovation
 - Post between 8:00-9:00 AM IST on a Tuesday for maximum reach.
 - Do not tag anyone. Let the content earn organic shares.
 - Respond to every comment within 2 hours. Treat each reply as a micro-post.
+
+## Retroactive Comment (add NOW -- Day 3 is live)
+
+Go to the published Day 1 post and add this as a new comment:
+
+```
+Update: the live demo is now up.
+
+Day 3 shows two scenarios running on the actual application -- a chat interface for ad-hoc stock queries and a structured AI Brief with a full audit trail.
+
+No mockups. No slides. The experiment is real.
+
+[paste your Day 3 post URL here]
+```
