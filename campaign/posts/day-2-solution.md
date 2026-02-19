@@ -111,6 +111,8 @@ The scaling path is not a rewrite. It is a configuration change. Local emulators
 
 The budget conversation? It happens after you have working software and an evidence report. Not before.
 
+Disclaimer: The opinions expressed here are my own.
+
 Swipe through for the platform layers, the local-to-Azure mapping, and the experiment cycle.
 
 #EnterpriseArchitecture #PlatformEngineering #IdeaFactory #Blueprint #ContextEngineering #DotNetAspire #GitHubCopilotSDK #AIatScale #CTO #DeveloperExperience
