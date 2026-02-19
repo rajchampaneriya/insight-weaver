@@ -2,6 +2,18 @@
 
 ## Sequence Diagram
 
+### Printable diagram (SVG / PDF)
+
+![Network connectivity diagram](diagrams/network-connectivity.svg)
+
+To generate a printable SVG or PDF (A4 — landscape):
+
+```bash
+cd ui
+npm run render:mermaid        # writes ../reference-docs/diagrams/network-connectivity.svg
+npm run render:mermaid:pdf    # writes ../reference-docs/diagrams/network-connectivity.pdf
+```
+
 ```mermaid
 sequenceDiagram
     participant WebApp as Azure Web App<br/>(in Custom VNet)

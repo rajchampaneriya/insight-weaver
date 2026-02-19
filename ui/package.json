@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "render:mermaid": "npx -y @mermaid-js/mermaid-cli -i ../reference-docs/diagrams/network-connectivity.mmd -o ../reference-docs/diagrams/network-connectivity.svg -w 1600 -H 900",
+    "render:mermaid:pdf": "npx -y @mermaid-js/mermaid-cli -i ../reference-docs/diagrams/network-connectivity.mmd -o ../reference-docs/diagrams/network-connectivity.pdf -w 1600 -H 900"
   },
   "dependencies": {
     "@carbon/charts-react": "^1.27.2",
