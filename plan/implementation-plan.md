@@ -1,4 +1,4 @@
-# Implementation Plan: The Idea Factory -- Pilot #001
+# Implementation Plan: The Idea Factory
 
 **Architect:** Raj Champaneriya
 **Document Status:** Approved for execution
@@ -87,10 +87,7 @@ insight-weaver/
     copilot-instructions.md        # Copilot agent context
   plan/
     prd.md
-    draft.md
     implementation-plan.md
-  memory/
-    checklist.md                   # Execution progress tracker
   ui/                              # React frontend (existing, to be migrated)
     src/
       components/                  # Carbon-based components

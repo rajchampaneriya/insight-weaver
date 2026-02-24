@@ -1,4 +1,4 @@
-PRD: The Idea Factory – Pilot #001 (Azure AI Insights for Indian Equities) 1.1 Problem statement The Enterprise Problem: Innovation in financial analytics often stalls due to "budget friction." Architects cannot test AI hypotheses (e.g., "Can we summarize sentiment for NSE stocks?") without a full business case, leading to stagnation.
+PRD: The Idea Factory (Azure AI Insights for Indian Equities) 1.1 Problem statement The Enterprise Problem: Innovation in financial analytics often stalls due to "budget friction." Architects cannot test AI hypotheses (e.g., "Can we summarize sentiment for NSE stocks?") without a full business case, leading to stagnation.
 
 The Domain Problem: Retail investors in India struggle to interpret large volumes of fundamentals, price time series, and news, leading to emotion-driven decisions. There is a need for a compliant, explainable, AI-assisted insight layer.
 

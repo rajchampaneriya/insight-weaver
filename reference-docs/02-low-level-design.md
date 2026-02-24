@@ -1,4 +1,4 @@
-# Low-Level Design (LLD): The Idea Factory -- Pilot #001
+# Low-Level Design (LLD): The Idea Factory
 
 **Project:** Insight Weaver (The Idea Factory)
 **Version:** 1.0

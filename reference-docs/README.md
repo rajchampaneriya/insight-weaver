@@ -1,6 +1,6 @@
 # Reference Documentation Index
 
-**Project:** Insight Weaver (The Idea Factory -- Pilot #001)
+**Project:** Insight Weaver (The Idea Factory)
 **Version:** 1.0
 **Date:** 2026-02-15
 **Architect:** Raj Champaneriya
@@ -57,7 +57,6 @@ This single command launches:
 | `ui/src/hooks/` | React Query hooks for data fetching |
 | `reference-docs/` | This documentation set |
 | `plan/` | PRD, technical specification, implementation plan |
-| `memory/` | Execution progress checklist |
 
 ### Architecture at a Glance
 

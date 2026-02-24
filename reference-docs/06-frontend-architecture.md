@@ -190,7 +190,7 @@ sideNavExpanded: boolean -- Controls SideNav expansion
 
 Uses Carbon `Header` component with:
 - Hamburger menu to toggle side navigation
-- App name "Idea Factory" with "Pilot #001" tag
+- App name "Idea Factory"
 - Global actions: theme toggle (sun/moon icons), AI assistant toggle (chat icon)
 
 ### 5.3 AppSidebar

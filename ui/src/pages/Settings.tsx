@@ -24,7 +24,7 @@ export default function Settings() {
           <Information size={16} />
           <h2 className="text-sm font-semibold">About Idea Factory</h2>
           <Tag type="outline" size="sm" className="text-[10px] font-mono">
-            Pilot #001
+            Idea Factory
           </Tag>
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed">

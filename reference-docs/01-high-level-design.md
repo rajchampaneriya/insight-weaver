@@ -1,4 +1,4 @@
-# High-Level Design (HLD): The Idea Factory -- Pilot #001
+# High-Level Design (HLD): The Idea Factory
 
 **Project:** Insight Weaver (The Idea Factory)
 **Version:** 1.0

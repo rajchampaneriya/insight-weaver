@@ -10,7 +10,7 @@
 ## Pages & Layout
 
 ### 1. Shell / Navigation
-- Carbon-style top header with app name "Idea Factory" and "Pilot #001" badge
+- Carbon-style top header with app name "Idea Factory"
 - Left sidebar navigation: Dashboard, Watchlist, Stock Explorer, AI Briefcase, Settings
 - Persistent compliance disclaimer banner at bottom: "For informational purposes only. Not investment advice."
 

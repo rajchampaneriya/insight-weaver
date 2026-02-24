@@ -33,7 +33,7 @@ export function AppHeader({ isDark, onToggleTheme, onToggleAssistant, onToggleSi
         Idea Factory
       </HeaderName>
       <Tag type="blue" size="sm" className="ml-2">
-        Pilot #001
+        Idea Factory
       </Tag>
       <HeaderGlobalBar>
         <HeaderGlobalAction
