@@ -45,10 +45,10 @@ AI-driven research platform for Indian equities (NSE/BSE). Local-first experimen
 dotnet run --project api/src/IdeaFactory.AppHost
 ```
 
-Starts API on `http://localhost:5000`, UI on `http://localhost:8080`, Redis and Azurite via Aspire.
+Starts the API (typically `http://localhost:5074`), UI (`http://localhost:8080`), Redis, and Azurite via Aspire. Exact URLs are shown in the Aspire dashboard.
 
 ```bash
-curl http://localhost:5000/health
+curl http://localhost:5074/health
 ```
 
 ---
@@ -89,7 +89,6 @@ insight-weaver/
 ## Documentation
 
 - [Reference docs](reference-docs/) — HLD, LLD, ADRs, diagrams, compliance guide
-- [Implementation plan](plan/implementation-plan.md) — Phased delivery roadmap
 
 ---
 
