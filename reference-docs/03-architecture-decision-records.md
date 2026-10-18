@@ -253,3 +253,29 @@ Implement `MarketDataService` with static seeded data behind the `IMarketDataSer
 - Market data does not change over time (no intraday updates)
 - Earnings data is only seeded for RELIANCE; other stocks show "N/A"
 - The service must be replaced with a live data provider before production use
+
+---
+
+## ADR-011: Deterministic Policy Enforcement, Not LLM Prompts
+
+### Status
+Accepted
+
+### Context
+The platform must guarantee that no buy/sell/hold recommendation reaches a user, and that every AI interaction is auditable. A tempting implementation is to instruct the model itself: append policy rules to the system prompt ("never give investment advice") and trust the model to comply.
+
+### Decision
+Enforce policy with deterministic middleware (the Prudence layer) at explicit application boundaries — regex/word-boundary input and output validation, HTTP status codes, and hash-chained audit records. Prompt engineering remains in place as a soft layer, but it is never the control.
+
+### Rationale
+- **Probabilistic components cannot give deterministic guarantees.** A model can refuse 99.9% of advisory requests and still emit one on an unlucky sampling path. A control that is supposed to *never* fail cannot be built on a component with a temperature.
+- **Prompt injection.** User input reaches the model verbatim. Any prompt-based policy can be attacked by the very text it is trying to police ("ignore previous instructions"). Middleware runs before and after the model, outside the reach of injected content.
+- **Testability.** A middleware rule is a unit test: given disallowed input, assert HTTP 422. A prompt-based rule can only be tested statistically, by sampling, and a passing run does not prove the next run passes.
+- **Auditability.** The audit trail records a machine-checkable policy verdict (`allowed`/`blocked`, matched rule, hashes) rather than an unverifiable claim that the model was asked to behave.
+- **Clear ownership of failure modes.** When a blocked term slips through, the fix is a one-line rule change with a regression test. When a prompt-based control fails, the fix is prompt tinkering with no measurable before/after.
+
+### Consequences
+- The blocked-terms lexicon requires manual maintenance and can lag novel phrasings
+- Word-boundary matching produces occasional false positives (ADR-004)
+- Two enforcement layers exist (prompts + middleware); reviewers must understand that only the middleware is relied upon
+- Deterministic rules cannot judge *intent* — subtle advisory framing that avoids the lexicon passes; the model-facing prompts remain the first line of defense for quality, just not for guarantees
