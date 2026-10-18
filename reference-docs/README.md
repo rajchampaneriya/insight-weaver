@@ -19,8 +19,8 @@ This reference documentation set provides comprehensive technical and functional
 |---|---|---|---|
 | 01 | [High-Level Design (HLD)](01-high-level-design.md) | All stakeholders | System overview, logical architecture, technology stack, data flow, and non-functional requirements |
 | 02 | [Low-Level Design (LLD)](02-low-level-design.md) | Developers, Architects | Detailed class design, service layer internals, middleware pipeline, data models, endpoint specifications |
-| 03 | [Architecture Decision Records (ADR)](03-architecture-decision-records.md) | Architects, Tech Leads | 10 key architectural decisions with context, rationale, and consequences |
-| 04 | [Architecture Diagrams](04-architecture-diagrams.md) | All stakeholders | Mermaid diagrams: logical, functional, operational, deployment, data flow, component hierarchy, state management |
+| 03 | [Architecture Decision Records (ADR)](03-architecture-decision-records.md) | Architects, Tech Leads | 11 key architectural decisions with context, rationale, and consequences |
+| 04 | [Architecture Diagrams](04-architecture-diagrams.md) | All stakeholders | Mermaid diagrams: C4 context/container, logical, functional, operational, deployment, data flow, component hierarchy, state management |
 | 05 | [API Reference](05-api-reference.md) | Developers, QA | Complete API documentation with endpoints, request/response schemas, business logic, and error codes |
 | 06 | [Frontend Architecture](06-frontend-architecture.md) | Frontend Developers | React component structure, routing, data fetching strategy, state management, styling architecture |
 | 07 | [Compliance and Governance Guide](07-compliance-governance.md) | Compliance, Legal, All | SEBI compliance rules, Prudence middleware behavior, audit trail design, responsible AI principles |

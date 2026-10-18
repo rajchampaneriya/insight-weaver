@@ -6,6 +6,75 @@
 
 ---
 
+## 0. System Context and Container Views (C4)
+
+These two views communicate the system to mixed audiences: the context view shows what Insight Weaver is and who interacts with it; the container view shows the deliberate boundaries inside it.
+
+### 0.1 System Context
+
+```mermaid
+flowchart TB
+    TRADER[Retail Trader<br/>uses the React web app]
+    VALIDATOR[Technical Validator<br/>uses VS Code Copilot]
+    MAINTAINER[Maintainer / Contributor<br/>runs the stack locally]
+
+    subgraph IW[Insight Weaver - AI-assisted equity research with governance]
+        SYSTEM[Web app + API + AI integration<br/>+ governance layer]
+    end
+
+    GITHUB[GitHub Models / Copilot SDK<br/>external AI provider]
+    NSE[NSE/BSE market context<br/>static seeded data]
+
+    TRADER -->|research, briefs, chat| SYSTEM
+    VALIDATOR -->|skill queries| SYSTEM
+    MAINTAINER -->|dotnet run - AppHost| SYSTEM
+    SYSTEM -->|prompted inference| GITHUB
+    SYSTEM -.->|data shape mirrors| NSE
+```
+
+### 0.2 Container View
+
+Each container is independently runnable and communicates over explicit interfaces. Governance sits between the API and the AI provider — a deliberate boundary, not a feature flag ([ADR-011](03-architecture-decision-records.md)).
+
+```mermaid
+flowchart TB
+    subgraph SPA["React SPA (Vite + Carbon)"]
+        UI[Pages, hooks, React Query cache]
+    end
+
+    subgraph IDE["VS Code Copilot Extension"]
+        COPILOT[Webhook client]
+    end
+
+    subgraph API[".NET 10 Minimal API"]
+        ROUTES[Insight / Market / Copilot / Governance endpoints]
+        PRUDENCE[Prudence governance middleware<br/>deterministic policy + audit emit]
+        AIADAPTER[Microsoft.Extensions.AI IChatClient adapter]
+        MARKET[MarketDataService - static seed]
+    end
+
+    REDIS[(Redis - response cache, 15 min TTL)]
+    TABLE[(Azure Table Storage / Azurite - audit trail, date-partitioned)]
+    MODEL[GitHub Models - external LLM]
+
+    UI -->|HTTP /api| ROUTES
+    COPILOT -->|HTTP /copilot| ROUTES
+    ROUTES --> PRUDENCE
+    PRUDENCE -->|validated request| AIADAPTER
+    PRUDENCE -->|audit record| TABLE
+    AIADAPTER -->|prompted call| MODEL
+    ROUTES --> MARKET
+    ROUTES -->|cache aside| REDIS
+```
+
+Boundary rules visible in this view:
+
+- Both interfaces (web, IDE) enter through one pipeline — compliance applies equally ([ADR-009](03-architecture-decision-records.md))
+- AI calls cross exactly one boundary (Prudence), so no AI path can bypass policy or audit ([ADR-004](03-architecture-decision-records.md))
+- Redis and Table Storage are replaceable infrastructure; the API holds the abstractions ([ADR-006](03-architecture-decision-records.md), [ADR-007](03-architecture-decision-records.md))
+
+---
+
 ## 1. Logical Architecture View
 
 This diagram shows the logical decomposition of the system into functional areas, independent of technology choices.
